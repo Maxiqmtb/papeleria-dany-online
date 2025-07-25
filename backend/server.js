@@ -8,7 +8,7 @@ const Product = require('./models/product.model'); // Importa el modelo de Produ
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Usa el puerto del .env (3000) o 3000 por defecto
-const MONGO_URI = process.env.MONGO_URI; // URI de conexión a MongoDB desde .env
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.MONGO_URI;
 
 // --- Middlewares ---
 app.use(cors({

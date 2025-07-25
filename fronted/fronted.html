@@ -1085,7 +1085,7 @@
     async function obtenerProductosDelBackend() {
         try {
             // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
-            const response = await fetch('http://localhost:3000/api/productos');
+            const response = await fetch('https://papeleria-dany-online.onrender.com/api/productos');
             if (!response.ok) {
                 // Manejo de errores HTTP: Intenta leer el JSON del error para más detalles
                 let errorData = {};
@@ -1120,7 +1120,7 @@
                 const totalCalculado = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
                 // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
-                const response = await fetch('http://localhost:3000/api/pedidos', {
+                const response = await fetch('https://papeleria-dany-online.onrender.com/api/pedidos', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

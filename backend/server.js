@@ -12,7 +12,7 @@ const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.en
 
 // --- Middlewares ---
 app.use(cors({
-    origin: 'http://127.0.0.1:5500', // ¡¡¡IMPORTANTE!!! Confirmado con tu frontend
+     origin: ['http://127.0.0.1:5500', 'https://papeleria-dany-online-1.onrender.com'], // <-- ASÍ DEBE QUEDAR
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));

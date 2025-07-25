@@ -5,10 +5,13 @@ const express = require('express');
 const mongoose = require('mongoose'); // Asegurado que la importación de mongoose sea correcta
 const cors = require('cors'); // Para permitir solicitudes desde tu frontend
 const Product = require('./models/product.model'); // Importa el modelo de Producto
+const User = require('./models/user.model'); // AÑADIDO: Importa el modelo de Usuario
+const jwt = require('jsonwebtoken'); // AÑADIDO: Para crear y verificar tokens JWT
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL; // Corregido: Usar MONGO_URL si MONGO_URI no está definido
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretoquedebecambiarse'; // AÑADIDO: Clave secreta para JWT
 
 // --- FUNCIÓN PARA CARGAR PRODUCTOS INICIALES (¡AHORA ESTÁ AQUÍ, ANTES DE SER LLAMADA!) ---
 // Esta función está pensada para ser ejecutada UNA SOLA VEZ para poblar tu DB inicialmente.
@@ -366,6 +369,78 @@ app.post('/api/pedidos', async (req, res) => {
     } catch (error) {
         console.error('❌ Error al procesar el pedido:', error);
         res.status(500).json({ message: 'Error interno del servidor al procesar el pedido', error: error.message });
+    }
+});
+
+
+// AÑADIDO: Rutas de autenticación
+// Ruta para Registrar un nuevo usuario
+app.post('/api/register', async (req, res) => {
+    try {
+        const { nombre, email, password } = req.body;
+
+        // Validar que se envíen todos los datos requeridos
+        if (!nombre || !email || !password) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+        }
+
+        // Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({ message: 'El correo electrónico ya está registrado.' });
+        }
+
+        const newUser = new User({ nombre, email, password });
+        await newUser.save(); // La contraseña se encripta automáticamente por el middleware 'pre-save'
+
+        // No envíes la contraseña en la respuesta
+        const userResponse = newUser.toObject();
+        delete userResponse.password;
+
+        res.status(201).json({ message: 'Registro exitoso.', user: userResponse });
+    } catch (error) {
+        console.error('Error en el registro:', error);
+        res.status(500).json({ message: 'Error del servidor al registrar usuario.', error: error.message });
+    }
+});
+
+// Ruta para Iniciar Sesión de un usuario
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validar que se envíen todos los datos
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Correo electrónico y contraseña son obligatorios.' });
+        }
+
+        // Buscar al usuario por email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ message: 'Credenciales inválidas.' });
+        }
+
+        // Comparar la contraseña ingresada con la encriptada
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Credenciales inválidas.' });
+        }
+
+        // Generar un token JWT
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role || 'cliente' },
+            JWT_SECRET,
+            { expiresIn: '1h' } // El token expira en 1 hora
+        );
+
+        // No envíes la contraseña en la respuesta
+        const userResponse = user.toObject();
+        delete userResponse.password;
+
+        res.status(200).json({ message: 'Inicio de sesión exitoso.', token, user: userResponse });
+    } catch (error) {
+        console.error('Error en el inicio de sesión:', error);
+        res.status(500).json({ message: 'Error del servidor al iniciar sesión.', error: error.message });
     }
 });
 

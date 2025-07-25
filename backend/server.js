@@ -24,7 +24,7 @@ mongoose.connect(MONGO_URI)
         console.log('🎉 Conectado a MongoDB con éxito.');
         // ¡IMPORTANTE! Comenta la siguiente línea (cargarProductosIniciales();)
         // después de la primera ejecución exitosa para evitar duplicados en tu base de datos.
-        //cargarProductosIniciales();
+        cargarProductosIniciales();
     })
     .catch(err => {
         console.error('❌ Error de conexión a MongoDB:', err.message);
@@ -36,7 +36,7 @@ mongoose.connect(MONGO_URI)
 // --- Función para cargar productos iniciales si la base de datos está vacía ---
 // Esta función está pensada para ser ejecutada UNA SOLA VEZ para poblar tu DB inicialmente.
 // Una vez que tengas productos en tu DB, NO necesitas ejecutarla más.
-async function cargarProductosIniciales() {
+async function cargaProductosIniciales() {
     try {
         const productCount = await Product.countDocuments();
         if (productCount === 0) {

@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Papelería Dany - Tienda Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
+
+    <style>
+        :root {
+            --color-primario: #1e88e5;
+            --color-secundario: #e0f7fa;
+            --color-acento: #f4511e;
+            --sombra: 0 8px 16px rgba(0,0,0,0.08);
+            --transicion: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* --- ESTILOS DEL MEGA MENÚ --- */
+        .navbar-toggler-mega {
+            font-size: 1.8rem;
+            color: var(--color-primario);
+            border: none;
+            background: transparent;
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .offcanvas-title {
+            color: var(--color-primario);
+            font-weight: 600;
+        }
+
+        .offcanvas-body {
+            padding: 0;
+        }
+
+        .menu-category {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .main-category-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .main-category-link:hover {
+            background-color: #f0faff;
+        }
+
+        .main-category-link .bi-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        .main-category-link[aria-expanded="true"] .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .sub-category-list {
+            padding: 0;
+            background-color: #f8fcff;
+        }
+
+        .sub-category-item {
+            border-top: 1px solid #eef4f7;
+        }
+
+        .sub-category-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #444;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .sub-category-heading:hover {
+            background-color: #e7f8ff;
+        }
+
+        .sub-category-heading .bi-chevron-down {
+             transition: transform 0.3s ease;
+        }
+
+        .sub-category-heading[aria-expanded="true"] .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .final-category-list {
+            padding: 0.5rem 0 1rem 3.5rem;
+            background-color: #ffffff;
+        }
+
+        .final-category-link {
+            display: block;
+            text-decoration: none;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+
+        .final-category-link:hover {
+            background-color: var(--color-primario);
+            color: white;
+            transform: translateX(5px);
+        }
+        /* --- FIN ESTILOS MEGA MENÚ --- */
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(224, 242, 247, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 70% 80%, rgba(244, 81, 30, 0.1) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        nav.navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--color-secundario) 0%, #b3e5fc 100%) !important;
+            box-shadow: var(--sombra);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .navbar-brand img {
+            width: 70px;
+            border-radius: 10px;
+            margin-right: 10px;
+            box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+            border: 2px solid white;
+            transition: var(--transicion);
+        }
+
+        .navbar-brand:hover img {
+            transform: rotate(3deg) scale(1.03);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar-brand span {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--color-primario), #1565c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        section {
+            background: var(--color-secundario);
+            padding: 2rem;
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transicion);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 600;
+            color: var(--color-primario);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--color-primario), var(--color-acento));
+            border-radius: 2px;
+        }
+
+        .product-card {
+            background: #f5faff;
+            border-radius: 15px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+            transition: var(--transicion);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 12px;
+            border: 1px solid rgba(0,0,0,0.02);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 180%;
+            height: 180%;
+            background: linear-gradient( to bottom right, rgba(30, 136, 229, 0.2) 0%, rgba(255,255,255,0) 60% );
+            transform: rotate(25deg);
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .product-card:hover {
+            transform: translateY(-7px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        #vistos-recientemente .product-card {
+            cursor: pointer;
+        }
+
+        .product-card .img-container {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: var(--transicion);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+            border-radius: 10px;
+            padding: 8px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .product-card:hover img {
+            transform: scale(1.03) rotate(0.5deg);
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12));
+        }
+
+        .card-title {
+            font-size: 1rem;
+            min-height: 45px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .card-text {
+            font-weight: 600;
+            color: var(--color-primario);
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .badge-oferta { background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%); color: white; }
+        .badge-nuevo { background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; }
+        .badge-popular { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; }
+
+        #btnCarrito {
+            position: fixed;
+            top: 100px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--color-primario) 0%, #1565c0 100%);
+            color: white;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 5px 12px rgba(30, 136, 229, 0.3);
+            z-index: 10000;
+            cursor: pointer;
+            transition: var(--transicion);
+            border: none;
+        }
+
+        #btnCarrito:hover {
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 0 7px 15px rgba(30, 136, 229, 0.4);
+        }
+
+        #contadorCarrito {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: var(--color-acento);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        #notificacion {
+            position: fixed;
+            top: 140px;
+            right: 25px;
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 99999;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .product-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248,249,250,0.97);
+            z-index: 99999;
+            display: none;
+            overflow-y: auto;
+            padding: 15px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .product-modal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .product-view {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 20px auto;
+            gap: 25px;
+            background: #e3f2fd;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .product-view::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--color-primario), var(--color-acento));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .product-view .img-container {
+            flex: 1;
+            min-width: 300px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-view img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: white;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 280px;
+            padding: 12px;
+        }
+
+        .btn-close-modal {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--color-acento);
+            background: none;
+            border: none;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .btn-close-modal:hover {
+            background: rgba(0,0,0,0.03);
+            transform: rotate(90deg);
+        }
+
+        .btn-back-to-shop {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: white;
+            color: var(--color-primario);
+            border: 1px solid var(--color-primario);
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transicion);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            z-index: 10;
+        }
+
+        .btn-back-to-shop:hover {
+            background: var(--color-primario);
+            color: white;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+        }
+
+        #recomendados {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(0,0,0,0.05);
+        }
+
+        #recomendados .product-card { padding: 8px; }
+        #recomendados .product-card .img-container { height: 100px; }
+
+        footer {
+            background: linear-gradient(135deg, var(--color-secundario) 0%, #b3e5fc 100%);
+            color: var(--color-primario);
+            padding: 25px 0;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--color-primario), var(--color-acento));
+        }
+
+        footer p { margin: 0; font-weight: 500; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .floating { animation: float 3s ease-in-out infinite; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .pulse { animation: pulse 2s infinite; }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--color-primario);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #sugerenciasBusqueda {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 0 0 8px 8px !important;
+            border-top: none !important;
+        }
+        .sugerencia {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+        .sugerencia:hover {
+            background-color: var(--color-secundario);
+        }
+        .sugerencia:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+
+        .breadcrumb { background-color: transparent; padding: 0.5rem 0; margin-bottom: 0.8rem; }
+        .breadcrumb-item a { color: var(--color-primario); text-decoration: none; transition: color 0.15s; }
+        .breadcrumb-item a:hover { color: var(--color-acento); text-decoration: underline; }
+        .breadcrumb-item.active { color: #777; }
+
+        .cart-empty-state {
+            text-align: center;
+            padding: 30px;
+            background-color: #e8f5e9;
+            border-radius: 12px;
+            border: 1px dashed var(--color-primario);
+        }
+
+        .cart-empty-state .icon {
+            font-size: 40px;
+            color: var(--color-primario);
+            margin-bottom: 12px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-controls input {
+            width: 40px;
+            text-align: center;
+            border-left: none;
+            border-right: none;
+        }
+
+        .no-products-found {
+            text-align: center;
+            padding: 25px;
+            width: 100%;
+            font-size: 1rem;
+            color: #777;
+        }
+        #destacados {
+            padding: 2rem;
+            background: #e0f2f7;
+            border-radius: 20px;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .featured-carousel-card {
+            background: #f5faff;
+            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+            text-align: center;
+            padding: 1rem;
+            margin: 0 10px;
+        }
+
+        .featured-carousel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+
+        .featured-carousel-card img {
+            max-height: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .featured-carousel-card h5 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .featured-carousel-card p {
+            color: var(--color-primario);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .tns-controls { display: none; }
+        .tns-nav { display: none; }
+
+        @media (max-width: 991.98px) {
+            .product-view { flex-direction: column; }
+            .product-view .img-container { min-height: 250px; }
+            .btn-back-to-shop { font-size: 0.8rem; padding: 6px 12px; }
+        }
+        @media (max-width: 767.98px) {
+            section { padding: 1.5rem; }
+            .product-card .img-container { height: 120px; }
+            .product-info h2 { font-size: 1.3rem; }
+        }
+        @media (max-width: 575.98px) {
+            .navbar-brand span { font-size: 1.1rem; }
+            .product-card { padding: 10px; }
+            .product-card .img-container { height: 90px; }
+            .card-title { font-size: 0.85rem; min-height: auto; }
+            .product-modal { padding: 10px; }
+            .product-view { padding: 15px; gap: 15px; }
+            .btn-back-to-shop { top: 10px; left: 10px; font-size: 0.75rem; padding: 5px 10px; }
+            .btn-close-modal { top: 10px; right: 10px; font-size: 18px; width: 30px; height: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand d-flex align-items-center" href="#" onclick="volverAInicio(event)">
+            <img src="https://i.postimg.cc/vT7GgkDB/576012cb-422f-4a4c-8b4d-daccaddbcbf9.jpg" alt="Logo Papelería Dany" class="floating">
+            <span>Papelería Dany</span>
+        </a>
+        <button class="navbar-toggler-mega" type="button" data-bs-toggle="offcanvas" data-bs-target="#megaMenu" aria-controls="megaMenu">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="megaMenu" aria-labelledby="megaMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="megaMenuLabel"><i class="bi bi-tags-fill me-2"></i>Categorías</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="menu-category">
+            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseArte" role="button" aria-expanded="false" aria-controls="collapseArte">
+                Arte y Manualidades <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="collapseArte">
+                <div class="sub-category-list">
+                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseAccesoriosArte">Accesorios de Arte <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseAccesoriosArte"><div class="final-category-list">
+                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Brochas y Pinceles', event)">Brochas y Pinceles</a>
+                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lienzos y Bastidores', event)">Lienzos y Bastidores</a>
+                        </div></div>
+                    </div>
+                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseDibujoArte">Dibujo <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseDibujoArte"><div class="final-category-list">
+                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Blocks', event)">Blocks</a>
+                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcadores para Colorear', event)">Marcadores para Colorear</a>
+                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Tintas Chinas', event)">Tintas Chinas</a>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseEscolar" role="button" aria-expanded="false" aria-controls="collapseEscolar">
+                Artículos Escolares <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="collapseEscolar">
+                <div class="sub-category-list">
+                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Acuarelas', event)">Acuarelas</a></div>
+                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Gomas de Borrar', event)">Gomas de Borrar</a></div>
+                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Sacapuntas', event)">Sacapuntas</a></div>
+                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Tijeras', event)">Tijeras</a></div>
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseCuadernos">Cuadernos y Libretas <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseCuadernos"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Cuadernos Espiral', event)">Cuadernos Espiral</a>
+                        </div></div>
+                    </div>
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseDibujoEscolar">Dibujo <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseDibujoEscolar"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Crayones', event)">Crayones</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices de Colores', event)">Lápices de Colores</a>
+                        </div></div>
+                    </div>
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscrituraEscolar">Escritura <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseEscrituraEscolar"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices', event)">Lápices</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices Bicolor', event)">Lápices Bicolor</a>
+                        </div></div>
+                    </div>
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseMochilas">Mochilas y Loncheras <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseMochilas"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Mochilas Escolares', event)">Mochilas Escolares</a>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseOficina" role="button" aria-expanded="false" aria-controls="collapseOficina">
+                Artículos de Oficina <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="collapseOficina">
+                 <div class="sub-category-list">
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseArchivoOficina">Archivo <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseArchivoOficina"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Archivadores', event)">Archivadores</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Carpetas y Separadores', event)">Carpetas y Separadores</a>
+                        </div></div>
+                    </div>
+                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscritorioOficina">Artículos para Escritorio <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseEscritorioOficina"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Clips y Pines', event)">Clips y Pines</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Engrapadoras y Desengrapadoras', event)">Engrapadoras</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Notas Adhesivas', event)">Notas Adhesivas</a>
+                        </div></div>
+                    </div>
+                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscrituraOficina">Escritura <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapseEscrituraOficina"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Bolígrafos de Gel', event)">Bolígrafos de Gel</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcadores Permanentes', event)">Marcadores Permanentes</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcatextos', event)">Marcatextos</a>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-category">
+            <a class="main-category-link" data-bs-toggle="collapse" href="#collapsePapel" role="button" aria-expanded="false" aria-controls="collapsePapel">
+                Papel <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="collapsePapel">
+                 <div class="sub-category-list">
+                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Cartulinas', event)">Cartulinas</a></div>
+                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapsePapelCortado">Papeles Cortados <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapsePapelCortado"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Bond Carta', event)">Papel Bond Carta</a>
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Opalina', event)">Papel Opalina</a>
+                        </div></div>
+                    </div>
+                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapsePapelEspecial">Papeles Especiales <i class="bi bi-chevron-down"></i></a>
+                        <div class="collapse" id="collapsePapelEspecial"><div class="final-category-list">
+                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Fotográfico', event)">Papel Fotográfico</a>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="menu-category">
+            <a href="#productos" target="_blank" class="main-category-link" onclick="closeMenuAndScroll('#productos', event)"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Productos</a>
+        </div>
+        <div class="menu-category">
+            <a href="#sobre" class="main-category-link" onclick="closeMenuAndScroll('#sobre', event)"><i class="bi bi-info-circle-fill me-2"></i>Nosotros</a>
+        </div>
+        <div class="menu-category">
+            <a href="#contacto" class="main-category-link" onclick="closeMenuAndScroll('#contacto', event)"><i class="bi bi-envelope-fill me-2"></i>Contacto</a>
+        </div>
+         <div class="menu-category">
+            <a href="#" class="main-category-link" onclick="irAlCarritoDesdeMenu(event)"><i class="bi bi-cart-fill me-2"></i>Carrito</a>
+        </div>
+    </div>
+</div>
+<main class="container my-5">
+
+    <section id="destacados">
+        <h2 class="text-center mb-4">Productos Destacados</h2>
+        <div class="featured-carousel">
+            </div>
+    </section>
+
+    <section id="productos">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" onclick="volverAInicio(event)">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Productos</li>
+            </ol>
+        </nav>
+        <h2 class="text-center mb-4">Nuestros Productos</h2>
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="input-group position-relative">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="busqueda" class="form-control form-control-lg" placeholder="Buscar productos..." aria-label="Buscar" autocomplete="off">
+                    <div id="sugerenciasBusqueda" class="position-absolute w-100 d-none" style="z-index: 1000; top: 100%; left: 0; background: rgb(255, 255, 255); border: 1px solid #dee2e6; border-radius: 0 0 5px 5px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <select id="categoriaFiltro" class="form-select form-select-lg">
+                            <option value="">Todas las categorías</option>
+                            <option value="Escolar">Escolar</option>
+                            <option value="Oficina">Oficina</option>
+                            <option value="Arte">Arte</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select id="ordenarPor" class="form-select form-select-lg">
+                            <option value="">Ordenar por</option>
+                            <option value="precio-asc">Precio: Menor a Mayor</option>
+                            <option value="precio-desc">Precio: Mayor a Menor</option>
+                            <option value="novedades">Novedades</option>
+                            <option value="popularidad">Popularidad</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="lista-productos"></div>
+        <div class="text-center mt-4">
+            <button id="btnVerMas" class="btn btn-primary btn-lg" onclick="mostrarTodosLosProductos()">
+                <i class="bi bi-chevron-down"></i> Ver más productos
+            </button>
+        </div>
+    </section>
+
+    <button id="btnCarrito" onclick="irAlCarrito()" class="pulse">
+        <i class="bi bi-cart"></i> <span id="contadorCarrito">0</span>
+    </button>
+    <div id="notificacion">¡Producto agregado! 🎉</div>
+
+    <section id="vistos-recientemente" style="display:none;">
+        <h2 class="text-center mb-4">Vistos Recientemente</h2>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="lista-vistos-recientemente"></div>
+    </section>
+
+    <section id="carrito" style="display:none;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" onclick="volverAInicio(event)">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Carrito</li>
+            </ol>
+        </nav>
+        <h2 class="mb-4 text-center"><i class="bi bi-cart"></i> Tu Carrito de Compras</h2>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th><th></th></tr>
+                </thead>
+                <tbody id="listaCarrito"></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">Total:</td>
+                        <td class="fw-bold" id="totalCarrito">$0 MXN</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-outline-primary" onclick="volverAProductos()">
+                <i class="bi bi-arrow-left"></i> Seguir comprando
+            </button>
+            <div>
+                <button id="finalizarCompraBtn" class="btn btn-primary" onclick="finalizarCompra()">
+                    <i class="bi bi-check-circle"></i> Finalizar Compra
+                </button>
+                <a id="whatsappPedido" target="_blank" class="btn btn-success ms-2">
+                    <i class="bi bi-whatsapp"></i> WhatsApp
+                </a>
+                <button class="btn btn-danger ms-2" onclick="vaciarCarrito()">
+                    <i class="bi bi-trash"></i> Vaciar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2>Sobre Nosotros</h2>
+                <p class="lead">Somos una papelería mexicana con pasión por la creatividad.</p>
+                <p>Ofrecemos artículos escolares, de oficina y arte con la mejor relación calidad-precio del mercado. Nuestra misión es inspirar la creatividad en cada estudiante, profesional y artista.</p>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="https://i.postimg.cc/vT7GgkDB/576012cb-422f-4a4c-8b4d-daccaddbcbf9.jpg" alt="Papelería Dany" class="img-fluid rounded-4 shadow" style="max-height: 300px;">
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2 class="text-center mb-4">Contáctanos</h2>
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <form class="p-4 rounded-3 shadow-sm bg-light">
+                    <div class="mb-3"><label class="form-label">Tu nombre</label><input type="text" class="form-control form-control-lg" required></div>
+                    <div class="mb-3"><label class="form-label">Tu correo</label><input type="email" class="form-control form-control-lg" required></div>
+                    <div class="mb-3"><label class="form-label">Mensaje</label><textarea class="form-control form-control-lg" rows="4" required></textarea></div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Enviar mensaje</button>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-4 h-100 rounded-3" style="background: linear-gradient(135deg, var(--color-secundario) 0%, #b8d8f0 100%);">
+                    <h3 class="mb-4">Información de contacto</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-geo-alt-fill fs-4 me-3"></i><span>📍 Zapotlanejo Universidad #140, Jalisco</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-telephone-fill fs-4 me-3"></i><span>📞 52 33 2123 1801</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-envelope-fill fs-4 me-3"></i><span>📧 Papeledanny@hotmail.com</span></li>
+                    </ul>
+                    <a href="https://wa.me/523321231801" class="btn btn-success btn-lg mt-3" target="_blank"><i class="bi bi-whatsapp"></i> Chatear por WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="text-center py-4">
+    <div class="container">
+        <p class="mb-2">&copy; 2025 Papelería Dany - Todos los derechos reservados.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="#" class="text-decoration-none text-primary">Términos y condiciones</a>
+            <a href="#" class="text-decoration-none text-primary">Política de privacidad</a>
+            <a href="#" onclick="limpiarLocalStorage(event)" class="text-decoration-none text-danger">Limpiar Datos</a>
+        </div>
+    </div>
+</footer>
+
+<div id="modalProducto" class="product-modal">
+    <div class="product-view">
+        <button class="btn-back-to-shop" onclick="cerrarModalProducto()"><i class="bi bi-arrow-left-circle-fill me-2"></i>Volver</button>
+        <button class="btn-close-modal" onclick="cerrarModalProducto()">×</button>
+
+        <div class="col-md-6 text-center img-container">
+            <div id="modalLoader" class="loader" style="display:none;"></div>
+            <img id="modalImagen" src="" alt="">
+        </div>
+        <div class="col-md-6 product-info">
+            <h2 id="modalNombre" class="mb-3"></h2>
+            <div class="d-flex gap-2 mb-3">
+                <span id="modalPrecio" class="badge bg-primary fs-5"></span>
+                <span id="modalCategoria" class="badge bg-secondary"></span>
+            </div>
+            <p id="modalDescripcion" class="lead mb-4"></p>
+            <div class="mb-4">
+                <label class="form-label fw-bold">Cantidad:</label>
+                <div class="input-group input-group-lg mb-3">
+                    <button class="btn btn-outline-primary" type="button" onclick="modificarCantidad(-1)">-</button>
+                    <input type="number" id="modalCantidad" class="form-control text-center" min="1" value="1">
+                    <button class="btn btn-outline-primary" type="button" onclick="modificarCantidad(1)">+</button>
+                </div>
+            </div>
+            <button class="btn btn-success btn-lg w-100 py-3 mb-3" onclick="agregarAlCarritoDesdeModal()">
+                <i class="bi bi-cart-plus"></i> Agregar al carrito
+            </button>
+            <div class="alert alert-info">
+                <i class="bi bi-truck"></i> Envío gratis en compras mayores a $300 MXN
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h3 class="mb-4 text-center">También te puede interesar:</h3>
+        <div class="row g-4" id="recomendados"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+
+<script>
+    // Nueva variable global para almacenar los productos obtenidos del backend
+    let productosBackend = [];
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let vistosRecientemente = JSON.parse(localStorage.getItem("vistosRecientemente")) || [];
+    let productoSeleccionado = null;
+    let mostrarTodos = false;
+    let tnsInstance = null; // Para guardar la instancia del Tiny Slider
+
+    // --- FUNCIONES DE NAVEGACIÓN ---
+    function limpiarLocalStorage(event) {
+        event.preventDefault();
+        if (confirm("¿Estás seguro de que quieres borrar todos los datos guardados (carrito y vistos recientemente)?")) {
+            localStorage.clear();
+            alert("Los datos han sido borrados. La página se recargará.");
+            location.reload();
+        }
+    }
+
+    function filtrarPorSubCategoria(subCategoria, event) {
+        event.preventDefault();
+        document.getElementById('busqueda').value = '';
+        document.getElementById('categoriaFiltro').value = '';
+
+        filtrarProductos(true, subCategoria);
+
+        const menuOffcanvas = bootstrap.Offcanvas.getInstance('#megaMenu');
+        if (menuOffcanvas) {
+            menuOffcanvas.hide();
+        }
+
+        const seccionProductos = document.getElementById('productos');
+        if(seccionProductos) {
+            setTimeout(() => seccionProductos.scrollIntoView({ behavior: 'smooth' }), 300);
+        }
+    }
+
+    function closeMenuAndScroll(targetSelector, event) {
+        event.preventDefault();
+        const menuOffcanvas = bootstrap.Offcanvas.getInstance('#megaMenu');
+        if (menuOffcanvas) {
+            menuOffcanvas.hide();
+        }
+        setTimeout(() => {
+            document.querySelector(targetSelector).scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+
+    function irAlCarritoDesdeMenu(event) {
+        event.preventDefault();
+        const menuOffcanvas = bootstrap.Offcanvas.getInstance('#megaMenu');
+        if (menuOffcanvas) {
+            menuOffcanvas.hide();
+        }
+        setTimeout(() => {
+            irAlCarrito();
+        }, 300);
+    }
+
+    function volverAInicio(event) {
+        if(event) event.preventDefault();
+        document.getElementById('busqueda').value = '';
+        document.getElementById('categoriaFiltro').value = '';
+        document.getElementById('ordenarPor').value = '';
+
+        document.querySelectorAll('main section').forEach(sec => sec.style.display = 'block');
+        document.getElementById('carrito').style.display = 'none';
+        renderVistosRecientemente();
+        filtrarProductos(); // Re-renderiza productos con los filtros por defecto
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- FUNCIONES DE CONEXIÓN AL BACKEND ---
+    async function obtenerProductosDelBackend() {
+        try {
+            // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
+            const response = await fetch('http://localhost:3000/api/productos');
+            if (!response.ok) {
+                // Manejo de errores HTTP: Intenta leer el JSON del error para más detalles
+                let errorData = {};
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    errorData = { message: response.statusText }; // Si no es JSON, usa el statusText
+                }
+                throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Error desconocido del servidor'}`);
+            }
+            const data = await response.json();
+            productosBackend = data; // Almacena los productos obtenidos
+            console.log("Productos cargados desde el backend:", productosBackend.length); // Para depuración
+            renderFeaturedCarousel(); // Renderiza el carrusel con los productos del backend
+            filtrarProductos(); // Renderiza la lista de productos principal
+        } catch (error) {
+            console.error("Error al obtener los productos del backend:", error);
+            const lista = document.getElementById("lista-productos");
+            lista.innerHTML = `<div class="no-products-found alert alert-danger" role="alert"><i class="bi bi-exclamation-triangle fs-1"></i><p class="mt-2">No se pudieron cargar los productos. Por favor, asegúrate que el servidor backend esté corriendo y la URL sea correcta (Ej. http://localhost:3000/api/productos).</p><p>Detalle del error: ${error.message}</p></div>`;
+            document.getElementById("btnVerMas").style.display = "none";
+        }
+    }
+
+    async function finalizarCompra() {
+        if (carrito.length === 0) {
+            alert("Tu carrito está vacío. ¡Añade productos para comprar!");
+            return;
+        }
+
+        if (confirm("¿Confirmar tu pedido? Se enviará al servidor y vaciaremos tu carrito localmente.")) {
+            try {
+                const totalCalculado = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+
+                // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
+                const response = await fetch('http://localhost:3000/api/pedidos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ items: carrito, total: totalCalculado.toFixed(2) }),
+                });
+
+                if (!response.ok) {
+                    let errorData = {};
+                    try {
+                        errorData = await response.json();
+                    } catch (e) {
+                        errorData = { message: response.statusText };
+                    }
+                    throw new Error(`Error al procesar el pedido: ${errorData.message || 'Error desconocido del servidor'}`);
+                }
+
+                const resultadoPedido = await response.json();
+                alert(`¡Pedido realizado con éxito! Tu número de pedido es: ${resultadoPedido.orderId}`);
+                vaciarCarrito(); // Vaciar el carrito local después de enviar
+                volverAProductos(); // Volver a la vista de productos
+
+                // Opcional: Redirigir a WhatsApp con el pedido confirmado
+                window.open(generarMensajeWhatsApp(resultadoPedido.orderId), '_blank');
+
+            } catch (error) {
+                console.error("Error al enviar el pedido:", error);
+                alert(`Hubo un problema al procesar tu pedido: ${error.message}. Por favor, inténtalo de nuevo.`);
+            }
+        }
+    }
+
+    // --- LÓGICA DE RENDERIZADO Y FILTROS (MODIFICADA PARA USAR 'productosBackend') ---
+    function renderFeaturedCarousel() {
+        const container = document.querySelector(".featured-carousel");
+        if (!container || productosBackend.length === 0) {
+            if (tnsInstance) { // Si ya hay una instancia, destrúyela para limpiar
+                tnsInstance.destroy();
+                tnsInstance = null;
+            }
+            container.innerHTML = '<p class="text-center text-muted">No hay productos destacados disponibles.</p>';
+            return;
+        }
+
+        // Filtra para obtener productos con etiqueta o alta popularidad para destacados
+        const featuredCandidates = productosBackend.filter(p => p.etiqueta || (p.vecesComprado && p.vecesComprado > 0))
+                                                  .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
+
+        // Si no hay suficientes candidatos con etiquetas, toma algunos aleatorios de todos los productos
+        let featuredProducts = [];
+        if (featuredCandidates.length >= 15) {
+            featuredProducts = featuredCandidates.slice(0, 15);
+        } else {
+            featuredProducts = [...productosBackend].sort(() => 0.5 - Math.random()).slice(0, 15);
+        }
+
+        container.innerHTML = ''; // Limpia el contenedor antes de añadir nuevos elementos
+        featuredProducts.forEach(p => {
+            const card = document.createElement("div");
+            card.innerHTML = `
+                <div class="featured-carousel-card" onclick="verProducto(${p.id})">
+                    <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
+                    <h5>${p.nombre}</h5>
+                    <p>$${p.precio} MXN</p>
+                </div>`;
+            container.appendChild(card);
+        });
+
+        // Destruye la instancia existente si la hay antes de crear una nueva
+        if (tnsInstance) {
+            tnsInstance.destroy();
+            tnsInstance = null;
+        }
+
+        // Crea una nueva instancia de Tiny Slider
+        tnsInstance = tns({
+            container: '.featured-carousel',
+            items: 2,
+            slideBy: 1,
+            autoplay: true,
+            autoplayButtonOutput: false,
+            autoplayTimeout: 4000,
+            speed: 800,
+            controls: false,
+            nav: false,
+            mouseDrag: true,
+            responsive: {
+                576: { items: 3 },
+                768: { items: 4 },
+                1200: { items: 5 }
+            }
+        });
+    }
+
+
+    function filtrarProductos(resetearVista = true, subCategoriaFiltro = null) {
+        if (resetearVista) {
+            mostrarTodos = false;
+        }
+
+        const texto = document.getElementById("busqueda").value.toLowerCase();
+        const categoria = document.getElementById("categoriaFiltro").value;
+        const orden = document.getElementById("ordenarPor").value;
+
+        // ¡USANDO productosBackend!
+        let filtrados = productosBackend.filter(p => {
+            const coincideTexto = texto ? p.nombre.toLowerCase().includes(texto) : true;
+            const coincideCategoria = !categoria || p.categoria === categoria;
+            const coincideSubCategoria = !subCategoriaFiltro || p.subCategoria === subCategoriaFiltro;
+            return coincideTexto && coincideCategoria && coincideSubCategoria;
+        });
+
+        switch (orden) {
+            case 'precio-asc': filtrados.sort((a, b) => a.precio - b.precio); break;
+            case 'precio-desc': filtrados.sort((a, b) => b.precio - a.precio); break;
+            case 'novedades': filtrados.sort((a, b) => b.id - a.id); break; // Asumiendo que IDs más altos son más nuevos
+            case 'popularidad': filtrados.sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); break;
+        }
+
+        renderProductos(filtrados);
+    }
+
+    function renderProductos(filtrados = productosBackend) { // Usando productosBackend por defecto
+        const lista = document.getElementById("lista-productos");
+        lista.innerHTML = "";
+
+        if (!filtrados || filtrados.length === 0) {
+            lista.innerHTML = `<div class="no-products-found"><i class="bi bi-emoji-frown fs-1"></i><p class="mt-2">No se encontraron productos para esta selección.</p></div>`;
+            document.getElementById("btnVerMas").style.display = "none";
+            return;
+        }
+
+        const productosAMostrar = mostrarTodos ? filtrados : filtrados.slice(0, 8);
+
+        productosAMostrar.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "col mb-4";
+            card.innerHTML = `
+                <div class="product-card h-100 text-center d-flex flex-column">
+                    <div class="img-container">
+                        <img src="${p.imagen}" class="card-img-top mb-2" alt="${p.nombre}" loading="lazy">
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">${p.nombre}</h5>
+                            ${p.etiqueta ? `<span class="badge ${badgeClass(p.etiqueta)}">${p.etiqueta}</span>` : ""}
+                            <p class="card-text mt-2">$${p.precio} MXN</p>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-2" onclick="verProducto(${p.id})">
+                            <i class="bi bi-eye"></i> Ver más
+                        </button>
+                    </div>
+                </div>`;
+            lista.appendChild(card);
+        });
+
+        const btnVerMas = document.getElementById("btnVerMas");
+        if (filtrados.length <= 8 || mostrarTodos) {
+            btnVerMas.style.display = "none";
+        } else {
+            btnVerMas.style.display = "block";
+            btnVerMas.innerHTML = `<i class="bi bi-chevron-down"></i> Ver ${filtrados.length - 8} productos más`;
+        }
+    }
+
+    function mostrarTodosLosProductos() {
+        mostrarTodos = true;
+        filtrarProductos(false);
+    }
+
+    function badgeClass(etiqueta) {
+        switch (etiqueta) {
+            case "Oferta": return "badge-oferta";
+            case "Nuevo": return "badge-nuevo";
+            case "Popular": return "badge-popular";
+            default: return "badge";
+        }
+    }
+
+    function verProducto(id) {
+        const p = productosBackend.find(prod => prod.id === id); // ¡USANDO productosBackend!
+        if (!p) {
+            console.error(`Producto con ID ${id} no encontrado en productosBackend.`);
+            return;
+        }
+        productoSeleccionado = p;
+
+        guardarVistoRecientemente(id);
+        renderVistosRecientemente();
+
+        const modal = document.getElementById("modalProducto");
+        const modalImagen = document.getElementById("modalImagen");
+        const modalLoader = document.getElementById("modalLoader");
+        modalImagen.style.display = "none";
+        modalLoader.style.display = "block";
+        modal.style.display = "block";
+
+        document.getElementById("modalNombre").textContent = p.nombre;
+        document.getElementById("modalDescripcion").textContent = p.descripcion || "Sin descripción disponible."; // Fallback si no hay descripción
+        document.getElementById("modalPrecio").textContent = `$${p.precio} MXN`;
+        document.getElementById("modalCantidad").value = 1;
+        document.getElementById("modalCategoria").textContent = p.categoria;
+
+        const img = new Image();
+        img.src = p.imagen;
+        img.onload = function() {
+            modalImagen.src = p.imagen;
+            modalImagen.alt = p.nombre;
+            modalLoader.style.display = "none";
+            modalImagen.style.display = "block";
+            renderRecomendados(id); // Renderiza recomendados después de cargar la imagen
+            setTimeout(() => {
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }, 10);
+        };
+        img.onerror = function() {
+            modalImagen.src = "https://cdn-icons-png.flaticon.com/512/1178/1178479.png"; // Imagen de fallback
+            modalLoader.style.display = "none";
+            modalImagen.style.display = "block";
+            renderRecomendados(id); // Asegura que los recomendados se rendericen incluso con error de imagen
+            setTimeout(() => {
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }, 10);
+        };
+    }
+
+    function guardarVistoRecientemente(productoId) {
+        vistosRecientemente = vistosRecientemente.filter(id => id !== productoId);
+        vistosRecientemente.unshift(productoId);
+        if (vistosRecientemente.length > 4) {
+            vistosRecientemente = vistosRecientemente.slice(0, 4);
+        }
+        localStorage.setItem("vistosRecientemente", JSON.stringify(vistosRecientemente));
+    }
+
+    function renderVistosRecientemente() {
+        const contenedor = document.getElementById("lista-vistos-recientemente");
+        const seccion = document.getElementById("vistos-recientemente");
+        contenedor.innerHTML = "";
+        if (vistosRecientemente.length === 0) {
+            seccion.style.display = "none";
+            return;
+        }
+        seccion.style.display = "block";
+        vistosRecientemente.forEach(id => {
+            const p = productosBackend.find(prod => prod.id === id); // ¡USANDO productosBackend!
+            if (p) {
+                const card = document.createElement("div");
+                card.className = "col mb-4";
+                card.innerHTML = `
+                    <div class="product-card h-100 text-center" onclick="verProducto(${p.id})" style="cursor:pointer;">
+                        <div class="img-container" style="height: 120px;">
+                            <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
+                        </div>
+                        <h6>${p.nombre}</h6>
+                        <p>$${p.precio} MXN</p>
+                    </div>`;
+                contenedor.appendChild(card);
+            }
+        });
+    }
+
+    function renderRecomendados(idActual) {
+        const contenedor = document.getElementById("recomendados");
+        contenedor.innerHTML = "";
+        // Filtrar de productosBackend
+        const recomendados = productosBackend.filter(p => p.id !== idActual).sort(() => 0.5 - Math.random()).slice(0, 3);
+        recomendados.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "col-md-4 mb-3";
+            card.innerHTML = `
+                <div class="product-card p-2 text-center" onclick="verProducto(${p.id})" style="cursor:pointer;">
+                    <div class="img-container">
+                        <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
+                    </div>
+                    <h6>${p.nombre}</h6><p>$${p.precio} MXN</p>
+                </div>`;
+            contenedor.appendChild(card);
+        });
+    }
+
+    function cerrarModalProducto() {
+        const modal = document.getElementById("modalProducto");
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        setTimeout(() => { modal.style.display = "none"; }, 300);
+    }
+
+    function modificarCantidad(cambio) {
+        const input = document.getElementById("modalCantidad");
+        let valor = parseInt(input.value) + cambio;
+        if (valor < 1) valor = 1;
+        input.value = valor;
+    }
+
+    function agregarAlCarritoDesdeModal() {
+        const cantidad = parseInt(document.getElementById("modalCantidad").value);
+        if (cantidad > 0 && productoSeleccionado) {
+            agregarAlCarrito(productoSeleccionado, cantidad);
+            cerrarModalProducto();
+        }
+    }
+
+    function agregarAlCarrito(producto, cantidad) {
+        const existe = carrito.find(item => item.id === producto.id);
+        if (existe) {
+            existe.cantidad += cantidad;
+        } else {
+            carrito.push({ ...producto, cantidad: cantidad });
+        }
+        guardarCarrito();
+        mostrarNotificacion();
+    }
+
+    function mostrarNotificacion() {
+        const n = document.getElementById("notificacion");
+        n.style.display = "block";
+        setTimeout(() => n.style.display = "none", 1500);
+    }
+
+    function guardarCarrito() {
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        actualizarContador();
+    }
+
+    function actualizarContador() {
+        const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        document.getElementById("contadorCarrito").textContent = totalItems;
+    }
+
+    function irAlCarrito() {
+        document.querySelectorAll('main section').forEach(sec => sec.style.display = 'none');
+        document.getElementById("carrito").style.display = "block";
+        renderCarrito();
+    }
+
+    function volverAProductos() {
+        document.querySelectorAll('main section').forEach(sec => {
+            if (sec.id !== 'carrito') {
+                sec.style.display = 'block';
+            } else {
+                sec.style.display = 'none';
+            }
+        });
+        renderVistosRecientemente();
+        filtrarProductos(); // Para que al volver se vean los productos cargados
+    }
+
+    function renderCarrito() {
+        const listaC = document.getElementById("listaCarrito");
+        const contenedorTabla = document.querySelector("#carrito .table-responsive");
+        const accionesCarrito = document.querySelector("#carrito .d-flex.justify-content-between"); // Selector más específico para evitar duplicados
+        listaC.innerHTML = "";
+
+        let estadoVacio = document.querySelector(".cart-empty-state");
+        if(estadoVacio) estadoVacio.remove();
+
+        if (carrito.length === 0) {
+            contenedorTabla.style.display = "none";
+            accionesCarrito.style.display = "none";
+            document.getElementById("carrito").insertAdjacentHTML('beforeend', `
+                <div class="cart-empty-state">
+                    <div class="icon"><i class="bi bi-cart-x"></i></div>
+                    <h3>Tu carrito está vacío</h3>
+                    <p>Parece que aún no has añadido ningún producto.</p>
+                    <button class="btn btn-primary btn-lg" onclick="volverAProductos()">
+                        <i class="bi bi-shop"></i> Ir a la tienda
+                    </button>
+                </div>`);
+            return;
+        }
+
+        contenedorTabla.style.display = "block";
+        accionesCarrito.style.display = "flex";
+
+        let total = 0;
+        carrito.forEach(item => {
+            const subtotal = item.precio * item.cantidad;
+            total += subtotal;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${item.nombre}</td>
+                <td class="quantity-controls">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito(${item.id}, -1)">-</button>
+                    <input type="number" class="form-control form-control-sm text-center" value="${item.cantidad}" readonly>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito(${item.id}, 1)">+</button>
+                </td>
+                <td>$${item.precio} MXN</td>
+                <td>$${subtotal.toFixed(2)} MXN</td>
+                <td><button class="btn btn-sm btn-danger" onclick="eliminarDelCarrito(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+            listaC.appendChild(tr);
+        });
+
+        document.getElementById("totalCarrito").textContent = `$${total.toFixed(2)} MXN`;
+        document.getElementById("whatsappPedido").href = generarMensajeWhatsApp();
+    }
+
+    function actualizarCantidadCarrito(id, cambio) {
+        const item = carrito.find(p => p.id === id);
+        if (item) {
+            item.cantidad += cambio;
+            if (item.cantidad <= 0) {
+                eliminarDelCarrito(id);
+            } else {
+                guardarCarrito();
+                renderCarrito();
+            }
+        }
+    }
+
+    function eliminarDelCarrito(id) {
+        carrito = carrito.filter(item => item.id !== id);
+        guardarCarrito();
+        renderCarrito();
+    }
+
+    function vaciarCarrito() {
+        if (confirm("¿Estás seguro de vaciar el carrito?")) {
+            carrito = [];
+            guardarCarrito();
+            renderCarrito();
+        }
+    }
+
+    function generarMensajeWhatsApp(orderId = null) {
+        if (carrito.length === 0) return "https://wa.me/523321231801?text=¡Hola!%20Mi%20carrito%20está%20vacío.";
+        let mensaje = "¡Hola! Me gustaría hacer el siguiente pedido:%0A%0A";
+        carrito.forEach(item => {
+            mensaje += `• ${item.nombre} x${item.cantidad} = $${(item.precio * item.cantidad).toFixed(2)} MXN%0A`;
+        });
+        const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+        mensaje += `%0ATotal: $${total.toFixed(2)} MXN`;
+        if (orderId) {
+            mensaje += `%0A%0ANúmero de Pedido: ${orderId}`;
+        }
+        return `https://wa.me/523321231801?text=${mensaje}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        obtenerProductosDelBackend(); // <--- LLAMADA CRUCIAL PARA OBTENER PRODUCTOS DEL BACKEND
+        renderVistosRecientemente();
+        actualizarContador();
+
+        const busquedaInput = document.getElementById("busqueda");
+        const sugerenciasContainer = document.getElementById("sugerenciasBusqueda");
+        const categoriaFiltro = document.getElementById("categoriaFiltro");
+        const ordenarPor = document.getElementById("ordenarPor");
+
+        function manejarBusqueda() {
+            const inputText = busquedaInput.value.toLowerCase();
+            sugerenciasContainer.innerHTML = "";
+            if (!inputText) {
+                sugerenciasContainer.classList.add("d-none");
+                filtrarProductos(true);
+                return;
+            }
+
+            const sugerencias = productosBackend // ¡USANDO productosBackend para sugerencias!
+                .filter(p => p.nombre.toLowerCase().includes(inputText))
+                .slice(0, 5);
+
+            if (sugerencias.length > 0) {
+                sugerencias.forEach(s => {
+                    const div = document.createElement("div");
+                    div.innerHTML = s.nombre;
+                    div.className = "sugerencia p-2";
+                    div.onclick = function() {
+                        busquedaInput.value = s.nombre;
+                        sugerenciasContainer.classList.add("d-none");
+                        filtrarProductos(true);
+                    };
+                    sugerenciasContainer.appendChild(div);
+                });
+                sugerenciasContainer.classList.remove("d-none");
+            } else {
+                sugerenciasContainer.classList.add("d-none");
+            }
+            filtrarProductos(true);
+        }
+
+        busquedaInput.addEventListener("input", manejarBusqueda);
+        categoriaFiltro.addEventListener("change", () => filtrarProductos(true));
+        ordenarPor.addEventListener("change", () => filtrarProductos(true));
+
+        document.addEventListener("click", function (e) {
+            if (e.target.id !== 'busqueda' && !sugerenciasContainer.contains(e.target)) {
+                sugerenciasContainer.classList.add("d-none");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

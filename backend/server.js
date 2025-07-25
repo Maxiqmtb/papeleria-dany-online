@@ -2,41 +2,18 @@
 require('dotenv').config();
 
 const express = require('express');
-const mongoose = require('mongoose'); // CORREGIDO: Asegurado que la importación de mongoose sea correcta
+const mongoose = require('mongoose'); // Asegurado que la importación de mongoose sea correcta
 const cors = require('cors'); // Para permitir solicitudes desde tu frontend
 const Product = require('./models/product.model'); // Importa el modelo de Producto
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Usa el puerto del .env (3000) o 3000 por defecto
+const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL || process.env.MONGO_URI;
 
-// --- Middlewares ---
-app.use(cors({
-     origin: ['http://127.0.0.1:5500', 'https://papeleria-dany-online-1.onrender.com'], // <-- ASÍ DEBE QUEDAR
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-app.use(express.json()); // Para parsear JSON en las peticiones (req.body)
-
-// --- Conexión a MongoDB ---
-mongoose.connect(MONGO_URI)
-    .then(() => {
-        console.log('🎉 Conectado a MongoDB con éxito.');
-        // ¡IMPORTANTE! Comenta la siguiente línea (cargarProductosIniciales();)
-        // después de la primera ejecución exitosa para evitar duplicados en tu base de datos.
-        cargarProductosIniciales();
-    })
-    .catch(err => {
-        console.error('❌ Error de conexión a MongoDB:', err.message);
-        console.error('Por favor, verifica:');
-        console.error('1. Que tu servidor MongoDB esté activo (ej. MongoDB Compass o `mongod` corriendo).');
-        console.error('2. Que la `MONGO_URI` en tu archivo `.env` sea correcta (escribe `console.log(process.env.MONGO_URI)` temporalmente para verificarla).');
-    });
-
-// --- Función para cargar productos iniciales si la base de datos está vacía ---
+// --- FUNCIÓN PARA CARGAR PRODUCTOS INICIALES (¡AHORA ESTÁ AQUÍ, ANTES DE SER LLAMADA!) ---
 // Esta función está pensada para ser ejecutada UNA SOLA VEZ para poblar tu DB inicialmente.
 // Una vez que tengas productos en tu DB, NO necesitas ejecutarla más.
-async function cargaProductosIniciales() {
+async function cargarProductosIniciales() {
     try {
         const productCount = await Product.countDocuments();
         if (productCount === 0) {
@@ -237,6 +214,29 @@ async function cargaProductosIniciales() {
     }
 }
 
+// --- Middlewares ---
+app.use(cors({
+    origin: ['http://127.0.0.1:5500', 'https://papeleria-dany-online-1.onrender.com'], // Permite acceso desde tu local y tu frontend desplegado
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(express.json()); // Para parsear JSON en las peticiones (req.body)
+
+// --- Conexión a MongoDB ---
+mongoose.connect(MONGO_URI)
+    .then(() => {
+        console.log('🎉 Conectado a MongoDB con éxito.');
+        // ¡IMPORTANTE! Comenta la siguiente línea (cargarProductosIniciales();)
+        // después de la primera ejecución exitosa para evitar duplicados en tu base de datos.
+        cargarProductosIniciales(); // <-- ESTA LÍNEA DEBE ESTAR DESCOMENTADA AHORA para cargar productos
+    })
+    .catch(err => {
+        console.error('❌ Error de conexión a MongoDB:', err.message);
+        console.error('Por favor, verifica:');
+        console.error('1. Que tu servidor MongoDB esté activo (ej. MongoDB Compass o `mongod` corriendo).');
+        console.error('2. Que la `MONGO_URI` en tu archivo `.env` sea correcta (escribe `console.log(process.env.MONGO_URI)` temporalmente para verificarla).');
+    });
+
 
 // --- Rutas de la API (Endpoints) ---
 
@@ -286,8 +286,6 @@ app.post('/api/productos', async (req, res) => {
             categoria: req.body.categoria,
             subCategoria: req.body.subCategoria,
             imagen: req.body.imagen,
-            // Si tienes una descripción en tus productos, añádela aquí:
-            // descripcion: req.body.descripcion,
             etiqueta: req.body.etiqueta || null,
             vecesComprado: req.body.vecesComprado || 0
         });
@@ -374,7 +372,7 @@ app.post('/api/pedidos', async (req, res) => {
 
 // --- Iniciar el servidor ---
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor backend de Papelería Dany corriendo en http://localhost:${PORT}`);
-    console.log(`🌐 Tu frontend debería acceder a esta API desde: http://127.0.0.1:5500`);
+    console.log(`🚀 Servidor backend de Papelería Dany corriendo en ${process.env.PUBLIC_BACKEND_URL || 'http://localhost:' + PORT}`);
+    console.log(`🌐 Tu frontend debería acceder a esta API desde: ${process.env.PUBLIC_FRONTEND_URL || 'http://127.0.0.1:5500'}`);
     console.log('💡 ¡No olvides iniciar tu servidor MongoDB (ej. con MongoDB Compass o `mongod`) antes de correr este backend!');
 });

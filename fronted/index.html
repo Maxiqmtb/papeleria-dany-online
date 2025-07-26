@@ -1491,23 +1491,24 @@
         }
     }
 
-    // FUNCIÓN AGREGARALCARRITO CORREGIDA
-    function agregarAlCarrito(producto, cantidad) {
-        // Valida que la cantidad sea un número válido y positivo
-        if (isNaN(cantidad) || cantidad <= 0) {
-            alert('Por favor, ingresa una cantidad válida y mayor que cero.');
-            return;
-        }
-
-        const existe = carrito.find(item => item.id === producto.id);
-        if (existe) {
-            existe.cantidad += cantidad;
-        } else {
-            carrito.push({ ...producto, cantidad: cantidad }); // CORREGIDO: Usar 'cantidad' aquí
-        }
-        guardarCarrito();
-        mostrarNotificacion();
+    function agregarAlCarrito(producto, cantidad) { // <-- 'cantidad' es el parámetro correcto
+    // Valida que la cantidad sea un número válido y positivo
+    if (isNaN(cantidad) || cantidad <= 0) {
+        alert('Por favor, ingresa una cantidad válida y mayor que cero.');
+        return;
     }
+
+    const existe = carrito.find(item => item.id === producto.id);
+    if (existe) {
+        existe.cantidad += cantidad;
+    } else {
+        // CORRECCIÓN CLAVE: Usar 'cantidad' (el parámetro) en lugar de 'quantity'
+        carrito.push({ ...producto, cantidad: cantidad });
+    }
+    guardarCarrito();
+    mostrarNotificacion();
+}
+
 
     function mostrarNotificacion() {
         const n = document.getElementById("notificacion");

@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URL; // Corregido: Usar MONGO_URL si MONGO_URI no está definido
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretoquedebecambiarse'; // AÑADIDO: Clave secreta para JWT
 
-// --- FUNCIÓN PARA CARGAR PRODUCTOS INICIALES (¡AHORA ESTÁ AQUÍ, ANTES DE SER LLAMADA!) ---
+// --- FUNCIÓN PARA CARGAR PRODUCTOS INICIALES ---
 // Esta función está pensada para ser ejecutada UNA SOLA VEZ para poblar tu DB inicialmente.
 // Una vez que tengas productos en tu DB, NO necesitas ejecutarla más.
 async function cargarProductosIniciales() {
@@ -78,7 +78,7 @@ async function cargarProductosIniciales() {
                 { id: 51, nombre: "Cartulina negra", precio: 8, categoria: "Arte", subCategoria: "Cartulinas", imagen: "https://cdn-icons-png.flaticon.com/512/3652/3652199.png", vecesComprado: 27 },
                 { id: 52, nombre: "Papel crepe x10", precio: 45, categoria: "Arte", subCategoria: "Papeles Extendidos", imagen: "https://cdn-icons-png.flaticon.com/512/3652/3652200.png", vecesComprado: 18 },
                 { id: 53, nombre: "Témperas x6", precio: 75, categoria: "Arte", subCategoria: "Pintura Gouache", imagen: "https://cdn-icons-png.flaticon.com/512/3176/3176284.png", vecesComprado: 21 },
-                { id: 54, nombre: "Pincel redondo #6", precio: 25, categoria: "Arte", subCategoria: "Brochas y Pinceles", imagen: "https://cdn-icons-png.flaticon.com/512/3176/3176283.png", vecesComprado: 23 },
+                { id: 54, nombre: "Pincel redondo #6", precio: 25, categoria: "Arte", subCategoria: "Brochas y Pinceles", imagen: "https://cdn-icons-png.flaticon.com/512/3176/3176288.png", vecesComprado: 23 },
                 { id: 55, nombre: "Block acuarela A4", precio: 55, categoria: "Arte", subCategoria: "Blocks", imagen: "https://cdn-icons-png.flaticon.com/512/3652/3652194.png", vecesComprado: 16 },
                 { id: 56, nombre: "Cutter profesional", precio: 35, categoria: "Oficina", subCategoria: "Cutters", imagen: "https://cdn-icons-png.flaticon.com/512/3176/3176171.png", vecesComprado: 29 },
                 { id: 57, nombre: "Lápiz de carbón", precio: 18, categoria: "Arte", subCategoria: "Lápices para Dibujo", imagen: "https://cdn-icons-png.flaticon.com/512/3176/3176189.png", vecesComprado: 14 },
@@ -223,7 +223,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json()); // Para parsear JSON en las peticiones (req.body)
+app.use(express.json()); // Para parsear cuerpos de solicitud JSON
 
 // --- Conexión a MongoDB ---
 mongoose.connect(MONGO_URI)
@@ -231,7 +231,7 @@ mongoose.connect(MONGO_URI)
         console.log('🎉 Conectado a MongoDB con éxito.');
         // ¡IMPORTANTE! Comenta la siguiente línea (cargarProductosIniciales();)
         // después de la primera ejecución exitosa para evitar duplicados en tu base de datos.
-        cargarProductosIniciales(); // <-- ESTA LÍNEA DEBE ESTAR DESCOMENTADA AHORA para cargar productos
+        cargarProductosIniciales(); // <-- DESCOMENTA ESTA LÍNEA SOLO LA PRIMERA VEZ
     })
     .catch(err => {
         console.error('❌ Error de conexión a MongoDB:', err.message);
@@ -391,7 +391,7 @@ app.post('/api/register', async (req, res) => {
         }
 
         const newUser = new User({ nombre, email, password });
-        await newUser.save(); // La contraseña se encripta automáticamente por el middleware 'pre-save'
+        await newUser.save(); // La contraseña se encripta automáticamente por el middleware 'pre-save' en user.model.js
 
         // No envíes la contraseña en la respuesta
         const userResponse = newUser.toObject();
@@ -421,6 +421,7 @@ app.post('/api/login', async (req, res) => {
         }
 
         // Comparar la contraseña ingresada con la encriptada
+        // ¡IMPORTANTE!: Esta función 'comparePassword' debe estar definida en tu models/user.model.js
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Credenciales inválidas.' });
@@ -428,7 +429,7 @@ app.post('/api/login', async (req, res) => {
 
         // Generar un token JWT
         const token = jwt.sign(
-            { id: user._id, email: user.email, role: user.role || 'cliente' },
+            { id: user._id, email: user.email, role: user.role || 'cliente' }, // Puedes añadir roles si tu modelo de usuario lo contempla
             JWT_SECRET,
             { expiresIn: '1h' } // El token expira en 1 hora
         );

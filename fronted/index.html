@@ -827,7 +827,7 @@
     <section id="destacados">
         <h2 class="text-center mb-4">Productos Destacados</h2>
         <div class="featured-carousel">
-            </div>
+             </div>
     </section>
 
     <section id="productos">
@@ -1237,7 +1237,7 @@
 
         // Filtra para obtener productos con etiqueta o alta popularidad para destacados
         const featuredCandidates = productosBackend.filter(p => p.etiqueta || (p.vecesComprado && p.vecesComprado > 0))
-                                                  .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
+                                                     .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
 
         // Si no hay suficientes candidatos con etiquetas, toma algunos aleatorios de todos los productos
         let featuredProducts = [];
@@ -1491,12 +1491,19 @@
         }
     }
 
+    // FUNCIÓN AGREGARALCARRITO CORREGIDA
     function agregarAlCarrito(producto, cantidad) {
+        // Valida que la cantidad sea un número válido y positivo
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert('Por favor, ingresa una cantidad válida y mayor que cero.');
+            return;
+        }
+
         const existe = carrito.find(item => item.id === producto.id);
         if (existe) {
             existe.cantidad += cantidad;
         } else {
-            carrito.push({ ...producto, cantidad: quantity });
+            carrito.push({ ...producto, cantidad: cantidad }); // CORREGIDO: Usar 'cantidad' aquí
         }
         guardarCarrito();
         mostrarNotificacion();
@@ -1539,7 +1546,7 @@
     function renderCarrito() {
         const listaC = document.getElementById("listaCarrito");
         const contenedorTabla = document.querySelector("#carrito .table-responsive");
-        const accionesCarrito = document.querySelector("#carrito .d-flex.justify-content-between"); // Selector más específico para evitar duplicados
+        const accionesCarrito = document.querySelector("#carrito .d-flex.justify-content-between");
         listaC.innerHTML = "";
 
         let estadoVacio = document.querySelector(".cart-empty-state");
@@ -1640,7 +1647,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nombre: name, email, password })
+                body: JSON.stringify({ nombre: name, email, password }) // Asumo que el backend espera 'nombre' para el nombre de usuario
             });
 
             const data = await response.json();
@@ -1651,7 +1658,8 @@
                 document.getElementById('registerForm').reset(); // Limpiar formulario
                 // Opcional: Cerrar modal de registro y abrir el de login
                 setTimeout(() => {
-                    bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+                    const registerModalInstance = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                    if (registerModalInstance) registerModalInstance.hide();
                     const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
                     loginModal.show();
                 }, 1500);
@@ -1694,7 +1702,8 @@
                 alertDiv.textContent = data.message + ` ¡Bienvenido, ${currentUser.nombre}!`;
                 document.getElementById('loginForm').reset(); // Limpiar formulario
                 setTimeout(() => {
-                    bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                    const loginModalInstance = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    if (loginModalInstance) loginModalInstance.hide();
                 }, 1500);
             } else {
                 alertDiv.className = 'alert alert-danger mt-3';
@@ -1749,7 +1758,7 @@
         obtenerProductosDelBackend(); // <--- LLAMADA CRUCIAL PARA OBTENER PRODUCTOS DEL BACKEND
         renderVistosRecientemente();
         actualizarContador();
-        updateAuthStatus(); // AÑADIDO: Llama a esta función al cargar la página para verificar el estado inicial de la autenticación
+        updateAuthStatus(); // Llama a esta función al cargar la página para verificar el estado inicial de la autenticación
 
         const busquedaInput = document.getElementById("busqueda");
         const sugerenciasContainer = document.getElementById("sugerenciasBusqueda");

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -110,7 +111,7 @@
         }
 
         .sub-category-heading .bi-chevron-down {
-             transition: transform 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .sub-category-heading[aria-expanded="true"] .bi-chevron-down {
@@ -309,7 +310,8 @@
         .badge-nuevo { background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; }
         .badge-popular { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; }
 
-        #btnCarrito {
+        /* OLD FLOATING CART BUTTON STYLES (now removed/overwritten) */
+        /* #btnCarrito {
             position: fixed;
             top: 100px;
             right: 15px;
@@ -327,27 +329,36 @@
             cursor: pointer;
             transition: var(--transicion);
             border: none;
-        }
+        } */
 
-        #btnCarrito:hover {
+        /* #btnCarrito:hover {
             transform: scale(1.08) rotate(5deg);
             box-shadow: 0 7px 15px rgba(30, 136, 229, 0.4);
+        } */
+
+        /* Styles for the new IN-NAVBAR cart button */
+        .navbar .btn-link.position-relative {
+            padding: 0.5rem 0.75rem; /* Adjust padding for better spacing in navbar */
+            text-decoration: none;
+            background: none;
+            border: none;
         }
 
         #contadorCarrito {
             position: absolute;
-            top: -3px;
-            right: -3px;
+            top: -5px; /* Adjusted position for in-navbar */
+            right: -5px; /* Adjusted position for in-navbar */
             background: var(--color-acento);
             color: white;
-            width: 20px;
-            height: 20px;
+            width: 18px; /* Slightly smaller badge */
+            height: 18px; /* Slightly smaller badge */
             border-radius: 50%;
-            font-size: 12px;
+            font-size: 10px; /* Smaller font for badge */
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            z-index: 1;
         }
 
         #notificacion {
@@ -421,6 +432,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 12px;
         }
 
         .product-view img {
@@ -657,9 +669,36 @@
             section { padding: 1.5rem; }
             .product-card .img-container { height: 120px; }
             .product-info h2 { font-size: 1.3rem; }
+            /* Adjust spacing for cart buttons on small screens */
+            #carrito .d-flex.flex-column {
+                align-items: stretch !important; /* Ensure buttons take full width */
+                gap: 10px !important; /* More space between stacked buttons */
+            }
+            #carrito .d-flex.flex-column .btn {
+                width: 100%; /* Full width buttons */
+                margin-left: 0 !important; /* Remove any left margin */
+            }
         }
         @media (max-width: 575.98px) {
-            .navbar-brand span { font-size: 1.1rem; }
+            .navbar-brand img {
+                width: 40px; /* Smaller logo on very small screens */
+                height: 40px;
+                margin-right: 5px; /* Less margin */
+            }
+            .navbar-brand span.d-block.d-sm-none { /* Target the short name for very small screens */
+                font-size: 1.1rem; /* Adjust font size */
+            }
+            .navbar-brand span.d-none.d-sm-block { /* Ensure full name is hidden */
+                display: none !important;
+            }
+            /* Reduce padding for nav links/buttons (login/register/cart icons) on very small screens */
+            .navbar .btn-link {
+                padding: 0.1rem 0.3rem !important; /* Even smaller padding for icons */
+            }
+            /* Ensure no wrapping for the right-side icons */
+            .navbar .d-flex.align-items-center.flex-nowrap {
+                flex-wrap: nowrap;
+            }
             .product-card { padding: 10px; }
             .product-card .img-container { height: 90px; }
             .card-title { font-size: 0.85rem; min-height: auto; }
@@ -673,155 +712,40 @@
 <body>
 
 <nav class="navbar navbar-expand-lg">
-    <div class="container d-flex justify-content-between align-items-center">
+    <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#" onclick="volverAInicio(event)">
             <img src="https://i.postimg.cc/vT7GgkDB/576012cb-422f-4a4c-8b4d-daccaddbcbf9.jpg" alt="Logo Papelería Dany" class="floating">
-            <span>Papelería Dany</span>
-        </a>
-        <div class="d-flex align-items-center">
-            <div id="authStatus" class="me-3">
-                <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <span class="d-none d-sm-block">Papelería Dany</span> <span class="d-block d-sm-none">Dany</span> </a>
+
+        <div class="d-flex align-items-center flex-nowrap ms-auto">
+            <div id="authStatus" class="d-flex align-items-center me-2">
+                <button class="btn btn-outline-primary me-2 d-none d-md-block" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Iniciar Sesión
                 </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                <button class="btn btn-primary d-none d-md-block" data-bs-toggle="modal" data-bs-target="#registerModal">
                     Registrarse
                 </button>
+                <button class="btn btn-link text-dark p-0 d-md-none" data-bs-toggle="modal" data-bs-target="#loginModal" title="Iniciar Sesión">
+                    <i class="bi bi-person-circle fs-5"></i>
+                </button>
+                <button class="btn btn-link text-primary p-0 d-md-none" data-bs-toggle="modal" data-bs-target="#registerModal" title="Registrarse">
+                    <i class="bi bi-person-plus-fill fs-5"></i>
+                </button>
             </div>
+
+            <button class="btn btn-link text-dark p-0 me-2 position-relative" onclick="irAlCarrito()" title="Ver Carrito">
+                <i class="bi bi-cart3 fs-4"></i>
+                <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+            </button>
+
             <button class="navbar-toggler-mega" type="button" data-bs-toggle="offcanvas" data-bs-target="#megaMenu" aria-controls="megaMenu">
                 <i class="bi bi-list"></i>
             </button>
         </div>
     </div>
 </nav>
+<div id="notificacion">¡Producto agregado! 🎉</div>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="megaMenu" aria-labelledby="megaMenuLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="megaMenuLabel"><i class="bi bi-tags-fill me-2"></i>Categorías</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="menu-category">
-            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseArte" role="button" aria-expanded="false" aria-controls="collapseArte">
-                Arte y Manualidades <i class="bi bi-chevron-down"></i>
-            </a>
-            <div class="collapse" id="collapseArte">
-                <div class="sub-category-list">
-                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseAccesoriosArte">Accesorios de Arte <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseAccesoriosArte"><div class="final-category-list">
-                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Brochas y Pinceles', event)">Brochas y Pinceles</a>
-                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lienzos y Bastidores', event)">Lienzos y Bastidores</a>
-                        </div></div>
-                    </div>
-                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseDibujoArte">Dibujo <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseDibujoArte"><div class="final-category-list">
-                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Blocks', event)">Blocks</a>
-                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcadores para Colorear', event)">Marcadores para Colorear</a>
-                            <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Tintas Chinas', event)">Tintas Chinas</a>
-                        </div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="menu-category">
-            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseEscolar" role="button" aria-expanded="false" aria-controls="collapseEscolar">
-                Artículos Escolares <i class="bi bi-chevron-down"></i>
-            </a>
-            <div class="collapse" id="collapseEscolar">
-                <div class="sub-category-list">
-                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Acuarelas', event)">Acuarelas</a></div>
-                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Gomas de Borrar', event)">Gomas de Borrar</a></div>
-                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Sacapuntas', event)">Sacapuntas</a></div>
-                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Tijeras', event)">Tijeras</a></div>
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseCuadernos">Cuadernos y Libretas <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseCuadernos"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Cuadernos Espiral', event)">Cuadernos Espiral</a>
-                        </div></div>
-                    </div>
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseDibujoEscolar">Dibujo <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseDibujoEscolar"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Crayones', event)">Crayones</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices de Colores', event)">Lápices de Colores</a>
-                        </div></div>
-                    </div>
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscrituraEscolar">Escritura <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseEscrituraEscolar"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices', event)">Lápices</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Lápices Bicolor', event)">Lápices Bicolor</a>
-                        </div></div>
-                    </div>
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseMochilas">Mochilas y Loncheras <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseMochilas"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Mochilas Escolares', event)">Mochilas Escolares</a>
-                        </div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="menu-category">
-            <a class="main-category-link" data-bs-toggle="collapse" href="#collapseOficina" role="button" aria-expanded="false" aria-controls="collapseOficina">
-                Artículos de Oficina <i class="bi bi-chevron-down"></i>
-            </a>
-            <div class="collapse" id="collapseOficina">
-                 <div class="sub-category-list">
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseArchivoOficina">Archivo <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseArchivoOficina"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Archivadores', event)">Archivadores</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Carpetas y Separadores', event)">Carpetas y Separadores</a>
-                        </div></div>
-                    </div>
-                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscritorioOficina">Artículos para Escritorio <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseEscritorioOficina"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Clips y Pines', event)">Clips y Pines</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Engrapadoras y Desengrapadoras', event)">Engrapadoras</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Notas Adhesivas', event)">Notas Adhesivas</a>
-                        </div></div>
-                    </div>
-                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapseEscrituraOficina">Escritura <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapseEscrituraOficina"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Bolígrafos de Gel', event)">Bolígrafos de Gel</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcadores Permanentes', event)">Marcadores Permanentes</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Marcatextos', event)">Marcatextos</a>
-                        </div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="menu-category">
-            <a class="main-category-link" data-bs-toggle="collapse" href="#collapsePapel" role="button" aria-expanded="false" aria-controls="collapsePapel">
-                Papel <i class="bi bi-chevron-down"></i>
-            </a>
-            <div class="collapse" id="collapsePapel">
-                 <div class="sub-category-list">
-                     <div class="sub-category-item"><a class="final-category-link" style="padding-left: 2.5rem;" onclick="filtrarPorSubCategoria('Cartulinas', event)">Cartulinas</a></div>
-                     <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapsePapelCortado">Papeles Cortados <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapsePapelCortado"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Bond Carta', event)">Papel Bond Carta</a>
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Opalina', event)">Papel Opalina</a>
-                        </div></div>
-                    </div>
-                    <div class="sub-category-item"><a class="sub-category-heading" data-bs-toggle="collapse" href="#collapsePapelEspecial">Papeles Especiales <i class="bi bi-chevron-down"></i></a>
-                        <div class="collapse" id="collapsePapelEspecial"><div class="final-category-list">
-                             <a href="#" class="final-category-link" onclick="filtrarPorSubCategoria('Papel Fotográfico', event)">Papel Fotográfico</a>
-                        </div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr class="my-3">
-        <div class="menu-category">
-            <a href="#productos" target="_blank" class="main-category-link" onclick="closeMenuAndScroll('#productos', event)"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Productos</a>
-        </div>
-        <div class="menu-category">
-            <a href="#sobre" class="main-category-link" onclick="closeMenuAndScroll('#sobre', event)"><i class="bi bi-info-circle-fill me-2"></i>Nosotros</a>
-        </div>
-        <div class="menu-category">
-            <a href="#contacto" class="main-category-link" onclick="closeMenuAndScroll('#contacto', event)"><i class="bi bi-envelope-fill me-2"></i>Contacto</a>
-        </div>
-         <div class="menu-category">
-            <a href="#" class="main-category-link" onclick="irAlCarritoDesdeMenu(event)"><i class="bi bi-cart-fill me-2"></i>Carrito</a>
-        </div>
-    </div>
-</div>
 <main class="container my-5">
 
     <section id="destacados">
@@ -876,11 +800,6 @@
         </div>
     </section>
 
-    <button id="btnCarrito" onclick="irAlCarrito()" class="pulse">
-        <i class="bi bi-cart"></i> <span id="contadorCarrito">0</span>
-    </button>
-    <div id="notificacion">¡Producto agregado! 🎉</div>
-
     <section id="vistos-recientemente" style="display:none;">
         <h2 class="text-center mb-4">Vistos Recientemente</h2>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="lista-vistos-recientemente"></div>
@@ -909,21 +828,19 @@
                 </tfoot>
             </table>
         </div>
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-outline-primary" onclick="volverAProductos()">
+        <div class="d-flex flex-column flex-md-row justify-content-md-end align-items-stretch gap-2 mt-3">
+            <button class="btn btn-outline-primary order-md-1" onclick="volverAProductos()">
                 <i class="bi bi-arrow-left"></i> Seguir comprando
             </button>
-            <div>
-                <button id="finalizarCompraBtn" class="btn btn-primary" onclick="finalizarCompra()">
-                    <i class="bi bi-check-circle"></i> Finalizar Compra
-                </button>
-                <a id="whatsappPedido" target="_blank" class="btn btn-success ms-2">
-                    <i class="bi bi-whatsapp"></i> WhatsApp
-                </a>
-                <button class="btn btn-danger ms-2" onclick="vaciarCarrito()">
-                    <i class="bi bi-trash"></i> Vaciar
-                </button>
-            </div>
+            <button id="finalizarCompraBtn" class="btn btn-primary order-md-2" onclick="finalizarCompra()">
+                <i class="bi bi-check-circle"></i> Finalizar Compra
+            </button>
+            <a id="whatsappPedido" target="_blank" class="btn btn-success order-md-3">
+                <i class="bi bi-whatsapp"></i> WhatsApp
+            </a>
+            <button class="btn btn-danger order-md-4" onclick="vaciarCarrito()">
+                <i class="bi bi-trash"></i> Vaciar
+            </button>
         </div>
     </section>
 
@@ -1237,7 +1154,7 @@
 
         // Filtra para obtener productos con etiqueta o alta popularidad para destacados
         const featuredCandidates = productosBackend.filter(p => p.etiqueta || (p.vecesComprado && p.vecesComprado > 0))
-                                                     .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
+                                                    .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
 
         // Si no hay suficientes candidatos con etiquetas, toma algunos aleatorios de todos los productos
         let featuredProducts = [];
@@ -1547,7 +1464,7 @@
     function renderCarrito() {
         const listaC = document.getElementById("listaCarrito");
         const contenedorTabla = document.querySelector("#carrito .table-responsive");
-        const accionesCarrito = document.querySelector("#carrito .d-flex.justify-content-between");
+        const accionesCarrito = document.querySelector("#carrito .d-flex.flex-column"); /* Changed selector to match new HTML */
         listaC.innerHTML = "";
 
         let estadoVacio = document.querySelector(".cart-empty-state");
@@ -1569,7 +1486,7 @@
         }
 
         contenedorTabla.style.display = "block";
-        accionesCarrito.style.display = "flex";
+        accionesCarrito.style.display = "flex"; /* Changed to flex to ensure new flex rules apply */
 
         let total = 0;
         carrito.forEach(item => {
@@ -1733,11 +1650,17 @@
         } else {
             currentUser = null;
             authStatusDiv.innerHTML = `
-                <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <button class="btn btn-outline-primary me-2 d-none d-md-block" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Iniciar Sesión
                 </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                <button class="btn btn-primary d-none d-md-block" data-bs-toggle="modal" data-bs-target="#registerModal">
                     Registrarse
+                </button>
+                <button class="btn btn-link text-dark p-0 d-md-none" data-bs-toggle="modal" data-bs-target="#loginModal" title="Iniciar Sesión">
+                    <i class="bi bi-person-circle fs-5"></i>
+                </button>
+                <button class="btn btn-link text-primary p-0 d-md-none" data-bs-toggle="modal" data-bs-target="#registerModal" title="Registrarse">
+                    <i class="bi bi-person-plus-fill fs-5"></i>
                 </button>
             `;
         }

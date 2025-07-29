@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -310,35 +309,9 @@
         .badge-nuevo { background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); color: white; }
         .badge-popular { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; }
 
-        /* OLD FLOATING CART BUTTON STYLES (now removed/overwritten) */
-        /* #btnCarrito {
-            position: fixed;
-            top: 100px;
-            right: 15px;
-            background: linear-gradient(135deg, var(--color-primario) 0%, #1565c0 100%);
-            color: white;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 5px 12px rgba(30, 136, 229, 0.3);
-            z-index: 10000;
-            cursor: pointer;
-            transition: var(--transicion);
-            border: none;
-        } */
-
-        /* #btnCarrito:hover {
-            transform: scale(1.08) rotate(5deg);
-            box-shadow: 0 7px 15px rgba(30, 136, 229, 0.4);
-        } */
-
         /* Styles for the new IN-NAVBAR cart button */
         .navbar .btn-link.position-relative {
-            padding: 0.5rem 0.75rem; /* Adjust padding for better spacing in navbar */
+            padding: 0.5rem 0.75rem;
             text-decoration: none;
             background: none;
             border: none;
@@ -346,14 +319,14 @@
 
         #contadorCarrito {
             position: absolute;
-            top: -5px; /* Adjusted position for in-navbar */
-            right: -5px; /* Adjusted position for in-navbar */
+            top: -5px;
+            right: -5px;
             background: var(--color-acento);
             color: white;
-            width: 18px; /* Slightly smaller badge */
-            height: 18px; /* Slightly smaller badge */
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            font-size: 10px; /* Smaller font for badge */
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -660,6 +633,38 @@
         .tns-controls { display: none; }
         .tns-nav { display: none; }
 
+        /* Estilos para el historial de pedidos */
+        .order-history-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: all 0.2s ease;
+        }
+        .order-history-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+        .order-history-card h5 {
+            color: var(--color-primario);
+            font-weight: 600;
+        }
+        .order-history-card .order-item {
+            border-top: 1px dashed #eee;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+        .order-history-card .order-item:first-child {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+        }
+        .order-history-card .order-item p {
+            margin-bottom: 3px;
+        }
+
         @media (max-width: 991.98px) {
             .product-view { flex-direction: column; }
             .product-view .img-container { min-height: 250px; }
@@ -671,31 +676,29 @@
             .product-info h2 { font-size: 1.3rem; }
             /* Adjust spacing for cart buttons on small screens */
             #carrito .d-flex.flex-column {
-                align-items: stretch !important; /* Ensure buttons take full width */
-                gap: 10px !important; /* More space between stacked buttons */
+                align-items: stretch !important;
+                gap: 10px !important;
             }
             #carrito .d-flex.flex-column .btn {
-                width: 100%; /* Full width buttons */
-                margin-left: 0 !important; /* Remove any left margin */
+                width: 100%;
+                margin-left: 0 !important;
             }
         }
         @media (max-width: 575.98px) {
             .navbar-brand img {
-                width: 40px; /* Smaller logo on very small screens */
+                width: 40px;
                 height: 40px;
-                margin-right: 5px; /* Less margin */
+                margin-right: 5px;
             }
-            .navbar-brand span.d-block.d-sm-none { /* Target the short name for very small screens */
-                font-size: 1.1rem; /* Adjust font size */
+            .navbar-brand span.d-block.d-sm-none {
+                font-size: 1.1rem;
             }
-            .navbar-brand span.d-none.d-sm-block { /* Ensure full name is hidden */
+            .navbar-brand span.d-none.d-sm-block {
                 display: none !important;
             }
-            /* Reduce padding for nav links/buttons (login/register/cart icons) on very small screens */
             .navbar .btn-link {
-                padding: 0.1rem 0.3rem !important; /* Even smaller padding for icons */
+                padding: 0.1rem 0.3rem !important;
             }
-            /* Ensure no wrapping for the right-side icons */
             .navbar .d-flex.align-items-center.flex-nowrap {
                 flex-wrap: nowrap;
             }
@@ -715,7 +718,9 @@
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#" onclick="volverAInicio(event)">
             <img src="https://i.postimg.cc/vT7GgkDB/576012cb-422f-4a4c-8b4d-daccaddbcbf9.jpg" alt="Logo Papelería Dany" class="floating">
-            <span class="d-none d-sm-block">Papelería Dany</span> <span class="d-block d-sm-none">Dany</span> </a>
+            <span class="d-none d-sm-block">Papelería Dany</span>
+            <span class="d-block d-sm-none">Dany</span>
+        </a>
 
         <div class="d-flex align-items-center flex-nowrap ms-auto">
             <div id="authStatus" class="d-flex align-items-center me-2">
@@ -841,6 +846,32 @@
             <button class="btn btn-danger order-md-4" onclick="vaciarCarrito()">
                 <i class="bi bi-trash"></i> Vaciar
             </button>
+        </div>
+    </section>
+
+    <section id="historial-pedidos" style="display:none;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" onclick="volverAInicio(event)">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mis Pedidos</li>
+            </ol>
+        </nav>
+        <h2 class="mb-4 text-center"><i class="bi bi-box-seam"></i> Mis Pedidos</h2>
+        <div id="listaHistorialPedidos" class="row">
+            <div class="col-12 text-center text-muted" id="noOrdersMessage" style="display:none;">
+                <i class="bi bi-info-circle fs-3 mt-3"></i>
+                <p class="mt-2">No tienes pedidos anteriores. ¡Es un buen momento para empezar a comprar!</p>
+            </div>
+            <div class="col-12 text-center" id="loadingOrders" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando pedidos...</span>
+                </div>
+                <p class="mt-2">Cargando tus pedidos...</p>
+            </div>
+            <div class="col-12 text-center text-danger" id="ordersErrorMessage" style="display:none;">
+                <i class="bi bi-exclamation-triangle fs-3 mt-3"></i>
+                <p class="mt-2">Hubo un error al cargar tus pedidos. Por favor, inténtalo de nuevo más tarde.</p>
+            </div>
         </div>
     </section>
 
@@ -1054,6 +1085,23 @@
         }, 300);
     }
 
+    // MODIFICADO: Agregada lógica para mostrar historial de pedidos
+    function irAlHistorialPedidos(event) {
+        if(event) event.preventDefault();
+        if (!currentUser) {
+            alert('Por favor, inicia sesión para ver tu historial de pedidos.');
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            return;
+        }
+        // Ocultar todas las secciones excepto el historial
+        document.querySelectorAll('main section').forEach(sec => sec.style.display = 'none');
+        document.getElementById("historial-pedidos").style.display = "block";
+        // Llamar a la función para cargar y mostrar el historial de pedidos
+        fetchUserOrders();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function volverAInicio(event) {
         if(event) event.preventDefault();
         document.getElementById('busqueda').value = '';
@@ -1062,6 +1110,7 @@
 
         document.querySelectorAll('main section').forEach(sec => sec.style.display = 'block');
         document.getElementById('carrito').style.display = 'none';
+        document.getElementById('historial-pedidos').style.display = 'none'; // Ocultar historial al volver al inicio
         renderVistosRecientemente();
         filtrarProductos(); // Re-renderiza productos con los filtros por defecto
 
@@ -1069,25 +1118,32 @@
     }
 
     // --- FUNCIONES DE CONEXIÓN AL BACKEND ---
+    // Helper para obtener el token de autorización
+    function getAuthHeaders() {
+        const token = localStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    }
+
     async function obtenerProductosDelBackend() {
         try {
-            // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
             const response = await fetch(`${BACKEND_URL}/api/productos`);
             if (!response.ok) {
-                // Manejo de errores HTTP: Intenta leer el JSON del error para más detalles
                 let errorData = {};
                 try {
                     errorData = await response.json();
                 } catch (e) {
-                    errorData = { message: response.statusText }; // Si no es JSON, usa el statusText
+                    errorData = { message: response.statusText };
                 }
                 throw new Error(`HTTP error! status: ${response.status} - ${errorData.message || 'Error desconocido del servidor'}`);
             }
             const data = await response.json();
-            productosBackend = data; // Almacena los productos obtenidos
-            console.log("Productos cargados desde el backend:", productosBackend.length); // Para depuración
-            renderFeaturedCarousel(); // Renderiza el carrusel con los productos del backend
-            filtrarProductos(); // Renderiza la lista de productos principal
+            productosBackend = data;
+            console.log("Productos cargados desde el backend:", productosBackend.length);
+            renderFeaturedCarousel();
+            filtrarProductos();
         } catch (error) {
             console.error("Error al obtener los productos del backend:", error);
             const lista = document.getElementById("lista-productos");
@@ -1096,42 +1152,62 @@
         }
     }
 
+    // MODIFICADO: Función finalizarCompra para interactuar con la nueva API de pedidos
     async function finalizarCompra() {
         if (carrito.length === 0) {
             alert("Tu carrito está vacío. ¡Añade productos para comprar!");
             return;
         }
 
-        if (confirm("¿Confirmar tu pedido? Se enviará al servidor y vaciaremos tu carrito localmente.")) {
-            try {
-                const totalCalculado = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+        if (!currentUser) {
+            alert('Por favor, inicia sesión para finalizar tu compra.');
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            return;
+        }
 
-                // **IMPORTANTE**: Asegúrate que esta URL coincida con el puerto de tu backend (ej. 3000)
-                const response = await fetch(`${BACKEND_URL}/api/pedidos`, {
+        if (confirm("¿Confirmar tu pedido y proceder al pago?")) {
+            try {
+                // Preparar los items del carrito para el backend (solo ID y cantidad)
+                const itemsToSend = carrito.map(item => ({
+                    productId: item._id, // Asegúrate de usar el _id de MongoDB aquí
+                    quantity: item.cantidad
+                }));
+
+                // Puedes pedir la dirección de envío al usuario aquí (ej. con un modal o formulario)
+                // Por simplicidad, usaremos una dirección de ejemplo. En una app real, la pedirías.
+                const shippingAddress = {
+                    street: 'Calle Falsa 123',
+                    city: 'Zapotlanejo',
+                    state: 'Jalisco',
+                    zipCode: '45000',
+                    country: 'México'
+                };
+
+                const response = await fetch(`${BACKEND_URL}/api/orders`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ items: carrito, total: totalCalculado.toFixed(2) }),
+                    headers: getAuthHeaders(), // Incluye el token JWT
+                    body: JSON.stringify({
+                        userId: currentUser._id, // Envía el ID del usuario logueado
+                        products: itemsToSend,
+                        shippingAddress: shippingAddress,
+                        paymentDetails: { method: 'simulate_card', amount: document.getElementById("totalCarrito").dataset.rawTotal } // Placeholder
+                    }),
                 });
 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    let errorData = {};
-                    try {
-                        errorData = await response.json();
-                    } catch (e) {
-                        errorData = { message: response.statusText };
-                    }
-                    throw new Error(`Error al procesar el pedido: ${errorData.message || 'Error desconocido del servidor'}`);
+                    const errorMessage = data.message || 'Error desconocido al procesar el pedido.';
+                    throw new Error(`Error ${response.status}: ${errorMessage}`);
                 }
 
-                const resultadoPedido = await response.json();
-                alert(`¡Pedido realizado con éxito! Tu número de pedido es: ${resultadoPedido.orderId}`);
+                alert(`¡Pedido realizado con éxito! Tu número de pedido es: ${data.order._id}`); // Usar _id de la orden generada por MongoDB
                 vaciarCarrito(); // Vaciar el carrito local después de enviar
                 volverAProductos(); // Volver a la vista de productos
 
                 // Opcional: Redirigir a WhatsApp con el pedido confirmado
-                window.open(generarMensajeWhatsApp(resultadoPedido.orderId), '_blank');
+                window.open(generarMensajeWhatsApp(data.order._id), '_blank');
 
             } catch (error) {
                 console.error("Error al enviar el pedido:", error);
@@ -1140,11 +1216,83 @@
         }
     }
 
-    // --- LÓGICA DE RENDERIZADO Y FILTROS (MODIFICADA PARA USAR 'productosBackend') ---
+    // NUEVA FUNCIÓN: Obtener y mostrar el historial de pedidos del usuario
+    async function fetchUserOrders() {
+        const listaHistorialPedidos = document.getElementById('listaHistorialPedidos');
+        const noOrdersMessage = document.getElementById('noOrdersMessage');
+        const loadingOrders = document.getElementById('loadingOrders');
+        const ordersErrorMessage = document.getElementById('ordersErrorMessage');
+
+        // Reiniciar estados
+        listaHistorialPedidos.innerHTML = '';
+        noOrdersMessage.style.display = 'none';
+        ordersErrorMessage.style.display = 'none';
+        loadingOrders.style.display = 'block';
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            loadingOrders.style.display = 'none';
+            ordersErrorMessage.style.display = 'block';
+            ordersErrorMessage.querySelector('p').textContent = 'Necesitas iniciar sesión para ver tus pedidos.';
+            return;
+        }
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/orders/my-orders`, {
+                method: 'GET',
+                headers: getAuthHeaders()
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMessage = data.message || 'Error al cargar historial.';
+                throw new Error(`Error ${response.status}: ${errorMessage}`);
+            }
+
+            loadingOrders.style.display = 'none';
+
+            if (data.orders && data.orders.length > 0) {
+                data.orders.forEach(order => {
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'col-md-6 col-lg-4 d-flex'; // Para que las tarjetas tengan la misma altura
+                    orderCard.innerHTML = `
+                        <div class="order-history-card flex-grow-1">
+                            <h5>Pedido #${order._id.substring(order._id.length - 6).toUpperCase()}</h5>
+                            <p><strong>Fecha:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+                            <p><strong>Total:</strong> $${order.totalAmount.toFixed(2)} MXN</p>
+                            <p><strong>Estado del Pedido:</strong> <span class="badge bg-info">${order.orderStatus.toUpperCase()}</span></p>
+                            <p><strong>Estado del Pago:</strong> <span class="badge bg-secondary">${order.paymentStatus.toUpperCase()}</span></p>
+                            <h6>Productos:</h6>
+                            <ul class="list-unstyled">
+                                ${order.products.map(item => `
+                                    <li class="order-item">
+                                        <p>${item.name} x${item.quantity} ($${item.price.toFixed(2)} c/u)</p>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            </div>
+                    `;
+                    listaHistorialPedidos.appendChild(orderCard);
+                });
+            } else {
+                noOrdersMessage.style.display = 'block';
+            }
+
+        } catch (error) {
+            console.error('Error al obtener el historial de pedidos:', error);
+            loadingOrders.style.display = 'none';
+            ordersErrorMessage.style.display = 'block';
+            ordersErrorMessage.querySelector('p').textContent = `Hubo un error al cargar tus pedidos: ${error.message}.`;
+        }
+    }
+
+
+    // --- LÓGICA DE RENDERIZADO Y FILTROS ---
     function renderFeaturedCarousel() {
         const container = document.querySelector(".featured-carousel");
         if (!container || productosBackend.length === 0) {
-            if (tnsInstance) { // Si ya hay una instancia, destrúyela para limpiar
+            if (tnsInstance) {
                 tnsInstance.destroy();
                 tnsInstance = null;
             }
@@ -1152,11 +1300,9 @@
             return;
         }
 
-        // Filtra para obtener productos con etiqueta o alta popularidad para destacados
         const featuredCandidates = productosBackend.filter(p => p.etiqueta || (p.vecesComprado && p.vecesComprado > 0))
-                                                    .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); // Ordena por popularidad
+                                                    .sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0));
 
-        // Si no hay suficientes candidatos con etiquetas, toma algunos aleatorios de todos los productos
         let featuredProducts = [];
         if (featuredCandidates.length >= 15) {
             featuredProducts = featuredCandidates.slice(0, 15);
@@ -1164,7 +1310,7 @@
             featuredProducts = [...productosBackend].sort(() => 0.5 - Math.random()).slice(0, 15);
         }
 
-        container.innerHTML = ''; // Limpia el contenedor antes de añadir nuevos elementos
+        container.innerHTML = '';
         featuredProducts.forEach(p => {
             const card = document.createElement("div");
             card.innerHTML = `
@@ -1176,13 +1322,11 @@
             container.appendChild(card);
         });
 
-        // Destruye la instancia existente si la hay antes de crear una nueva
         if (tnsInstance) {
             tnsInstance.destroy();
             tnsInstance = null;
         }
 
-        // Crea una nueva instancia de Tiny Slider
         tnsInstance = tns({
             container: '.featured-carousel',
             items: 2,
@@ -1202,7 +1346,6 @@
         });
     }
 
-
     function filtrarProductos(resetearVista = true, subCategoriaFiltro = null) {
         if (resetearVista) {
             mostrarTodos = false;
@@ -1212,7 +1355,6 @@
         const categoria = document.getElementById("categoriaFiltro").value;
         const orden = document.getElementById("ordenarPor").value;
 
-        // ¡USANDO productosBackend!
         let filtrados = productosBackend.filter(p => {
             const coincideTexto = texto ? p.nombre.toLowerCase().includes(texto) : true;
             const coincideCategoria = !categoria || p.categoria === categoria;
@@ -1223,14 +1365,14 @@
         switch (orden) {
             case 'precio-asc': filtrados.sort((a, b) => a.precio - b.precio); break;
             case 'precio-desc': filtrados.sort((a, b) => b.precio - a.precio); break;
-            case 'novedades': filtrados.sort((a, b) => b.id - a.id); break; // Asumiendo que IDs más altos son más nuevos
+            case 'novedades': filtrados.sort((a, b) => b.id - a.id); break;
             case 'popularidad': filtrados.sort((a, b) => (b.vecesComprado || 0) - (a.vecesComprado || 0)); break;
         }
 
         renderProductos(filtrados);
     }
 
-    function renderProductos(filtrados = productosBackend) { // Usando productosBackend por defecto
+    function renderProductos(filtrados = productosBackend) {
         const lista = document.getElementById("lista-productos");
         lista.innerHTML = "";
 
@@ -1255,6 +1397,7 @@
                             <h5 class="card-title">${p.nombre}</h5>
                             ${p.etiqueta ? `<span class="badge ${badgeClass(p.etiqueta)}">${p.etiqueta}</span>` : ""}
                             <p class="card-text mt-2">$${p.precio} MXN</p>
+                            <p class="text-muted small">Stock: ${p.stock !== undefined ? p.stock : 'N/A'}</p>
                         </div>
                         <button class="btn btn-primary w-100 mt-2" onclick="verProducto(${p.id})">
                             <i class="bi bi-eye"></i> Ver más
@@ -1283,14 +1426,14 @@
     }
 
     function verProducto(id) {
-        const p = productosBackend.find(prod => prod.id === id); // ¡USANDO productosBackend!
+        const p = productosBackend.find(prod => prod.id === id);
         if (!p) {
             console.error(`Producto con ID ${id} no encontrado en productosBackend.`);
             return;
         }
         productoSeleccionado = p;
 
-        guardarVistoRecientemente(id);
+        guardarVistoRecientemente(p._id); // Usar _id para vistos recientemente también
         renderVistosRecientemente();
 
         const modal = document.getElementById("modalProducto");
@@ -1301,7 +1444,7 @@
         modal.style.display = "block";
 
         document.getElementById("modalNombre").textContent = p.nombre;
-        document.getElementById("modalDescripcion").textContent = p.descripcion || "Sin descripción disponible."; // Fallback si no hay descripción
+        document.getElementById("modalDescripcion").textContent = p.descripcion || "Sin descripción disponible.";
         document.getElementById("modalPrecio").textContent = `$${p.precio} MXN`;
         document.getElementById("modalCantidad").value = 1;
         document.getElementById("modalCategoria").textContent = p.categoria;
@@ -1313,17 +1456,17 @@
             modalImagen.alt = p.nombre;
             modalLoader.style.display = "none";
             modalImagen.style.display = "block";
-            renderRecomendados(id); // Renderiza recomendados después de cargar la imagen
+            renderRecomendados(p.id); // Usar el ID numérico para recomendados
             setTimeout(() => {
                 modal.classList.add("active");
                 document.body.style.overflow = "hidden";
             }, 10);
         };
         img.onerror = function() {
-            modalImagen.src = "https://cdn-icons-png.flaticon.com/512/1178/1178479.png"; // Imagen de fallback
+            modalImagen.src = "https://cdn-icons-png.flaticon.com/512/1178/1178479.png";
             modalLoader.style.display = "none";
             modalImagen.style.display = "block";
-            renderRecomendados(id); // Asegura que los recomendados se rendericen incluso con error de imagen
+            renderRecomendados(p.id);
             setTimeout(() => {
                 modal.classList.add("active");
                 document.body.style.overflow = "hidden";
@@ -1331,9 +1474,9 @@
         };
     }
 
-    function guardarVistoRecientemente(productoId) {
-        vistosRecientemente = vistosRecientemente.filter(id => id !== productoId);
-        vistosRecientemente.unshift(productoId);
+    function guardarVistoRecientemente(producto_id) { // Cambiado a _id de MongoDB
+        vistosRecientemente = vistosRecientemente.filter(id => id !== producto_id);
+        vistosRecientemente.unshift(producto_id);
         if (vistosRecientemente.length > 4) {
             vistosRecientemente = vistosRecientemente.slice(0, 4);
         }
@@ -1349,8 +1492,8 @@
             return;
         }
         seccion.style.display = "block";
-        vistosRecientemente.forEach(id => {
-            const p = productosBackend.find(prod => prod.id === id); // ¡USANDO productosBackend!
+        vistosRecientemente.forEach(_id => { // Usar _id para buscar
+            const p = productosBackend.find(prod => prod._id === _id);
             if (p) {
                 const card = document.createElement("div");
                 card.className = "col mb-4";
@@ -1370,7 +1513,6 @@
     function renderRecomendados(idActual) {
         const contenedor = document.getElementById("recomendados");
         contenedor.innerHTML = "";
-        // Filtrar de productosBackend
         const recomendados = productosBackend.filter(p => p.id !== idActual).sort(() => 0.5 - Math.random()).slice(0, 3);
         recomendados.forEach(p => {
             const card = document.createElement("div");
@@ -1408,24 +1550,21 @@
         }
     }
 
-    function agregarAlCarrito(producto, cantidad) { // <-- 'cantidad' es el parámetro correcto
-    // Valida que la cantidad sea un número válido y positivo
-    if (isNaN(cantidad) || cantidad <= 0) {
-        alert('Por favor, ingresa una cantidad válida y mayor que cero.');
-        return;
-    }
+    function agregarAlCarrito(producto, cantidad) {
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert('Por favor, ingresa una cantidad válida y mayor que cero.');
+            return;
+        }
 
-    const existe = carrito.find(item => item.id === producto.id);
-    if (existe) {
-        existe.cantidad += cantidad;
-    } else {
-        // CORRECCIÓN CLAVE: Usar 'cantidad' (el parámetro) en lugar de 'quantity'
-        carrito.push({ ...producto, cantidad: cantidad });
+        const existe = carrito.find(item => item._id === producto._id);
+        if (existe) {
+            existe.cantidad += cantidad;
+        } else {
+            carrito.push({ ...producto, cantidad: quantity }); // Usar la propiedad 'quantity' consistente
+        }
+        guardarCarrito();
+        mostrarNotificacion();
     }
-    guardarCarrito();
-    mostrarNotificacion();
-}
-
 
     function mostrarNotificacion() {
         const n = document.getElementById("notificacion");
@@ -1446,25 +1585,26 @@
     function irAlCarrito() {
         document.querySelectorAll('main section').forEach(sec => sec.style.display = 'none');
         document.getElementById("carrito").style.display = "block";
+        document.getElementById('historial-pedidos').style.display = 'none'; // Asegurarse de ocultar historial
         renderCarrito();
     }
 
     function volverAProductos() {
         document.querySelectorAll('main section').forEach(sec => {
-            if (sec.id !== 'carrito') {
+            if (sec.id !== 'carrito' && sec.id !== 'historial-pedidos') { // Ocultar también historial
                 sec.style.display = 'block';
             } else {
                 sec.style.display = 'none';
             }
         });
         renderVistosRecientemente();
-        filtrarProductos(); // Para que al volver se vean los productos cargados
+        filtrarProductos();
     }
 
     function renderCarrito() {
         const listaC = document.getElementById("listaCarrito");
         const contenedorTabla = document.querySelector("#carrito .table-responsive");
-        const accionesCarrito = document.querySelector("#carrito .d-flex.flex-column"); /* Changed selector to match new HTML */
+        const accionesCarrito = document.querySelector("#carrito .d-flex.flex-column");
         listaC.innerHTML = "";
 
         let estadoVacio = document.querySelector(".cart-empty-state");
@@ -1486,7 +1626,7 @@
         }
 
         contenedorTabla.style.display = "block";
-        accionesCarrito.style.display = "flex"; /* Changed to flex to ensure new flex rules apply */
+        accionesCarrito.style.display = "flex";
 
         let total = 0;
         carrito.forEach(item => {
@@ -1496,27 +1636,34 @@
             tr.innerHTML = `
                 <td>${item.nombre}</td>
                 <td class="quantity-controls">
-                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito(${item.id}, -1)">-</button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito('${item._id}', -1)">-</button>
                     <input type="number" class="form-control form-control-sm text-center" value="${item.cantidad}" readonly>
-                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito(${item.id}, 1)">+</button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="actualizarCantidadCarrito('${item._id}', 1)">+</button>
                 </td>
                 <td>$${item.precio} MXN</td>
                 <td>$${subtotal.toFixed(2)} MXN</td>
-                <td><button class="btn btn-sm btn-danger" onclick="eliminarDelCarrito(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+                <td><button class="btn btn-sm btn-danger" onclick="eliminarDelCarrito('${item._id}')"><i class="bi bi-trash"></i></button></td>`;
             listaC.appendChild(tr);
         });
 
         document.getElementById("totalCarrito").textContent = `$${total.toFixed(2)} MXN`;
+        document.getElementById("totalCarrito").dataset.rawTotal = total.toFixed(2);
         document.getElementById("whatsappPedido").href = generarMensajeWhatsApp();
     }
 
     function actualizarCantidadCarrito(id, cambio) {
-        const item = carrito.find(p => p.id === id);
+        const item = carrito.find(p => p._id === id);
         if (item) {
             item.cantidad += cambio;
             if (item.cantidad <= 0) {
                 eliminarDelCarrito(id);
             } else {
+                // Aquí podrías agregar una verificación de stock si el producto.stock está en el frontend carrito item
+                // const productInBackend = productosBackend.find(p => p._id === item._id);
+                // if (productInBackend && item.cantidad > productInBackend.stock) {
+                //     alert(`No hay suficiente stock para ${item.nombre}. Disponible: ${productInBackend.stock}`);
+                //     item.cantidad = productInBackend.stock; // O no permitir el cambio
+                // }
                 guardarCarrito();
                 renderCarrito();
             }
@@ -1524,7 +1671,7 @@
     }
 
     function eliminarDelCarrito(id) {
-        carrito = carrito.filter(item => item.id !== id);
+        carrito = carrito.filter(item => item._id !== id);
         guardarCarrito();
         renderCarrito();
     }
@@ -1538,16 +1685,18 @@
     }
 
     function generarMensajeWhatsApp(orderId = null) {
-        if (carrito.length === 0) return "https://wa.me/523321231801?text=¡Hola!%20Mi%20carrito%20está%20vacío.";
+        if (carrito.length === 0 && !orderId) return "https://wa.me/523321231801?text=¡Hola!%20Mi%20carrito%20está%20vacío.";
         let mensaje = "¡Hola! Me gustaría hacer el siguiente pedido:%0A%0A";
-        carrito.forEach(item => {
-            mensaje += `• ${item.nombre} x${item.cantidad} = $${(item.precio * item.cantidad).toFixed(2)} MXN%0A`;
-        });
-        const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-        mensaje += `%0ATotal: $${total.toFixed(2)} MXN`;
-        if (orderId) {
-            mensaje += `%0A%0ANúmero de Pedido: ${orderId}`;
+        if (carrito.length > 0) {
+            carrito.forEach(item => {
+                mensaje += `• ${item.nombre} x${item.cantidad} = $${(item.precio * item.cantidad).toFixed(2)} MXN%0A`;
+            });
+            const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+            mensaje += `%0ATotal: $${total.toFixed(2)} MXN`;
+        } else if (orderId) {
+            mensaje += `Acabo de realizar un pedido en su sitio web. Mi número de pedido es: ${orderId}.%0A`;
         }
+        
         return `https://wa.me/523321231801?text=${mensaje}`;
     }
 
@@ -1565,7 +1714,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nombre: name, email, password }) // Asumo que el backend espera 'nombre' para el nombre de usuario
+                body: JSON.stringify({ nombre: name, email, password })
             });
 
             const data = await response.json();
@@ -1573,8 +1722,7 @@
             if (response.ok) {
                 alertDiv.className = 'alert alert-success mt-3';
                 alertDiv.textContent = data.message + ' ¡Ahora puedes iniciar sesión!';
-                document.getElementById('registerForm').reset(); // Limpiar formulario
-                // Opcional: Cerrar modal de registro y abrir el de login
+                document.getElementById('registerForm').reset();
                 setTimeout(() => {
                     const registerModalInstance = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
                     if (registerModalInstance) registerModalInstance.hide();
@@ -1612,13 +1760,13 @@
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('token', data.token); // Guardar el token
-                localStorage.setItem('user', JSON.stringify(data.user)); // Guardar la información del usuario
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
                 currentUser = data.user;
-                updateAuthStatus(); // Actualizar la UI
+                updateAuthStatus();
                 alertDiv.className = 'alert alert-success mt-3';
                 alertDiv.textContent = data.message + ` ¡Bienvenido, ${currentUser.nombre}!`;
-                document.getElementById('loginForm').reset(); // Limpiar formulario
+                document.getElementById('loginForm').reset();
                 setTimeout(() => {
                     const loginModalInstance = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     if (loginModalInstance) loginModalInstance.hide();
@@ -1646,6 +1794,7 @@
             authStatusDiv.innerHTML = `
                 <span class="me-2 text-primary fw-bold">¡Hola, ${currentUser.nombre}!</span>
                 <button class="btn btn-outline-danger btn-sm" onclick="logout()">Cerrar Sesión</button>
+                <button class="btn btn-outline-info btn-sm ms-2" onclick="irAlHistorialPedidos(event)">Mis Pedidos</button>
             `;
         } else {
             currentUser = null;
@@ -1674,15 +1823,15 @@
             currentUser = null;
             updateAuthStatus();
             alert('Has cerrado sesión correctamente.');
-            volverAInicio(); // Opcional: redirigir al inicio o a una página de bienvenida
+            volverAInicio();
         }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        obtenerProductosDelBackend(); // <--- LLAMADA CRUCIAL PARA OBTENER PRODUCTOS DEL BACKEND
+        obtenerProductosDelBackend();
         renderVistosRecientemente();
         actualizarContador();
-        updateAuthStatus(); // Llama a esta función al cargar la página para verificar el estado inicial de la autenticación
+        updateAuthStatus();
 
         const busquedaInput = document.getElementById("busqueda");
         const sugerenciasContainer = document.getElementById("sugerenciasBusqueda");
@@ -1698,7 +1847,7 @@
                 return;
             }
 
-            const sugerencias = productosBackend // ¡USANDO productosBackend para sugerencias!
+            const sugerencias = productosBackend
                 .filter(p => p.nombre.toLowerCase().includes(inputText))
                 .slice(0, 5);
 
